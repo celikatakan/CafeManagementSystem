@@ -1,0 +1,449 @@
+﻿@model List<CafeManagementSystem.Business.Operations.Product.Dtos.ProductDto>
+
+<div class="bg-animation"></div>
+
+<div class="main-content">
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="header-content">
+                <h1 class="page-title">
+                    <i class="fas fa-utensils"></i>
+                    Ürünlerimiz
+                </h1>
+                <p class="page-subtitle">
+                    Kafelerimizde sunulan özel lezzetleri keşfedin
+                </p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="openAddProductModal()">
+                    <i class="fas fa-plus"></i>
+                    Yeni Ürün Ekle
+                </button>
+            </div>
+        </div>
+
+        <!-- Filters Section -->
+        <div class="filters-section">
+            <div class="filter-group">
+                <div class="filter-item">
+                    <label for="categoryFilter"><i class="fas fa-tags"></i> Kategori</label>
+                    <select class="filter-select" id="categoryFilter">
+                        <option value="">Tüm Kategoriler</option>
+                        <option value="kahve">Kahve</option>
+                        <option value="yiyecek">Yiyecek</option>
+                        <option value="içecek">İçecek</option>
+                        <option value="tatlı">Tatlı</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <label for="priceFilter"><i class="fas fa-wallet"></i> Fiyat Aralığı</label>
+                    <select class="filter-select" id="priceFilter">
+                        <option value="">Tüm Fiyatlar</option>
+                        <option value="50">50 TL altı</option>
+                        <option value="100">100 TL altı</option>
+                        <option value="150">150 TL altı</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <label for="stockFilter"><i class="fas fa-boxes"></i> Stok Durumu</label>
+                    <select class="filter-select" id="stockFilter">
+                        <option value="">Tüm Ürünler</option>
+                        <option value="inStock">Stokta Var</option>
+                        <option value="outOfStock">Stokta Yok</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <label for="searchFilter"><i class="fas fa-search"></i> Arama</label>
+                    <input type="text" class="filter-input" id="searchFilter" placeholder="Ürün adı ara...">
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid" id="productsGrid">
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var product in Model)
+                {
+                    <div class="product-card"
+                         data-category="@product.Category?.ToLower()"
+                         data-price="@product.Price"
+                         data-stock="@(product.StockQuantity > 0 ? "inStock" : "outOfStock")"
+                         data-name="@product.ProductName?.ToLower()">
+                        <div class="product-image">
+                            <img src="@(string.IsNullOrEmpty(product.ImageUrl) ? "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=400&h=250&fit=crop&crop=center" : product.ImageUrl)"
+                                 alt="@product.ProductName" />
+                            <div class="product-price">
+                                @product.Price.ToString("C")
+                            </div>
+                        </div>
+
+                        <div class="product-content">
+                            <div class="product-header">
+                                <h3 class="product-name">@product.ProductName</h3>
+                                <div class="product-id">#@product.Id</div>
+                            </div>
+
+                            <div class="product-category">
+                                <i class="fas fa-tag"></i>
+                                <span>@(product.Category ?? "Kategori belirtilmemiş")</span>
+                            </div>
+
+                            <div class="product-stock">
+                                <i class="fas fa-box"></i>
+                                <span class="@(product.StockQuantity > 0 ? "in-stock" : "out-of-stock")">
+                                    @(product.StockQuantity > 0 ? $"{product.StockQuantity} adet stokta" : "Stokta yok")
+                                </span>
+                            </div>
+
+                            <div class="product-actions">
+                                <button class="btn btn-outline" onclick="viewProductDelete(@product.Id)">
+                                    <i class="fas fa-eye"></i>
+                                    Sil
+                                </button>
+                                <button class="btn btn-primary" onclick="manageProduct(@product.Id)">
+                                    <i class="fas fa-cog"></i>
+                                    Yönet
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="empty-state">
+                    <div class="empty-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3>Henüz ürün bulunmuyor</h3>
+                    <p>İlk ürününüzü ekleyerek başlayın</p>
+                    <button class="btn btn-primary" onclick="openAddProductModal()">
+                        <i class="fas fa-plus"></i>
+                        İlk Ürününüzü Ekleyin
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Product Card Specific Styles */
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+    }
+
+    .product-card {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: var(--shadow-light);
+        border: 1px solid var(--border-color);
+        transition: all 0.3s ease;
+        position: relative;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 0.6s ease forwards;
+    }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+    .product-image {
+        position: relative;
+        height: 200px;
+        overflow: hidden;
+    }
+    .header-actions {
+        display: flex;
+        gap: 1rem;
+    }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+    .product-card:hover .product-image img {
+        transform: scale(1.05);
+    }
+
+    .product-price {
+        position: absolute;
+        bottom: 1rem;
+        right: 1rem;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+
+    .product-content {
+        padding: 1.5rem;
+    }
+
+    .product-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 1rem;
+    }
+
+    .product-name {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin: 0;
+        flex: 1;
+    }
+
+    .product-id {
+        background: var(--gradient-secondary);
+        color: var(--text-primary);
+        padding: 0.25rem 0.5rem;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+
+    .product-category, .product-stock {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.75rem;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+    }
+
+        .product-category i {
+            color: var(--primary-color);
+        }
+
+        .product-stock i {
+            color: var(--secondary-color);
+        }
+
+    .in-stock {
+        color: #28a745;
+    }
+
+    .out-of-stock {
+        color: #dc3545;
+    }
+
+    .product-actions {
+        display: flex;
+        gap: 0.75rem;
+        margin-top: 1rem;
+    }
+
+    .product-actions .btn {
+        flex: 1;
+        justify-content: center;
+        padding: 0.6rem 1rem;
+        font-size: 0.85rem;
+    }
+
+    /* Animations */
+    .product-card {
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 0.6s ease forwards;
+    }
+
+        .product-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .product-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .product-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .product-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+    .filters-section {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        border: 1px solid var(--border-color);
+    }
+
+    .filter-group {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+
+    .filter-item label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: var(--text-secondary);
+    }
+
+        .filter-item label i {
+            margin-right: 0.4rem;
+            color: var(--primary-color);
+        }
+
+    .filter-select,
+    .filter-input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        background: white;
+    }
+
+        .filter-select:focus,
+        .filter-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+        }
+
+    .empty-state {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 4rem 2rem;
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        border: 2px dashed var(--border-color);
+    }
+
+    .empty-icon {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto 1.5rem;
+        background: var(--gradient-secondary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        color: var(--text-primary);
+    }
+
+    .empty-state h3 {
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+    }
+
+    .empty-state p {
+        color: var(--text-muted);
+        margin-bottom: 2rem;
+    }
+
+    @@media (max-width: 768px) {
+        .page-header {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 1rem;
+        }
+
+        .header-actions {
+            justify-content: center;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        .products-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .filter-group {
+            grid-template-columns: 1fr;
+        }
+
+        .product-actions {
+            flex-direction: column;
+        }
+    }
+
+    /* Keyframes */
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<script>// Filter functionality for products
+    function filterProducts() {
+        const categoryFilter = document.getElementById('categoryFilter').value.toLowerCase();
+        const priceFilter = document.getElementById('priceFilter').value;
+        const stockFilter = document.getElementById('stockFilter').value;
+        const searchFilter = document.getElementById('searchFilter').value.toLowerCase();
+        const productCards = document.querySelectorAll('.product-card');
+
+        productCards.forEach(card => {
+            const category = card.dataset.category || '';
+            const price = parseFloat(card.dataset.price) || 0;
+            const stock = card.dataset.stock || '';
+            const name = card.dataset.name || '';
+
+            const categoryMatch = !categoryFilter || category.includes(categoryFilter);
+            const priceMatch = !priceFilter || price <= parseInt(priceFilter);
+            const stockMatch = !stockFilter || stock === stockFilter;
+            const nameMatch = !searchFilter || name.includes(searchFilter);
+
+            if (categoryMatch && priceMatch && stockMatch && nameMatch) {
+                card.style.display = 'block';
+                card.style.animation = 'fadeInUp 0.6s ease forwards';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    // Event listeners for filters
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('categoryFilter').addEventListener('change', filterProducts);
+        document.getElementById('priceFilter').addEventListener('change', filterProducts);
+        document.getElementById('stockFilter').addEventListener('change', filterProducts);
+        document.getElementById('searchFilter').addEventListener('input', filterProducts);
+    });
+
+    // Action functions
+    function viewProductDelete(productId) {
+        window.location.href = `/Product/Delete/${productId}`;
+    }
+
+    function manageProduct(productId) {
+        window.location.href = `/Product/Edit/${productId}`;
+    }
+
+    function openAddProductModal() {
+        window.location.href = '/Product/Create';
+    }</script>

@@ -1,0 +1,42 @@
+﻿/*.reviews-section {
+    margin-top: 30px;
+    padding: 20px;
+    border-top: 1px solid #eee;
+}
+
+.add-review {
+    margin-bottom: 30px;
+    padding: 15px;
+    background: #f9f9f9;
+    border-radius: 5px;
+}
+
+.review-item {
+    padding: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.review-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+    .review-header strong {
+        margin-right: 10px;
+    }
+
+.rating {
+    color: #ffc107;
+    margin-right: 10px;
+}
+
+.review-header small {
+    color: #777;
+}
+
+.review-comment {
+    line-height: 1.6;
+}
+*/

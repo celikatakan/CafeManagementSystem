@@ -1,0 +1,734 @@
+﻿@model List<CafeManagementSystem.Business.Operations.Order.Dtos.OrderDto>
+<div class="bg-animation"></div>
+
+<div class="main-content">
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="header-content">
+                <h1 class="page-title">
+                    <i class="fas fa-shopping-cart"></i>
+                    Siparişler
+                </h1>
+                <p class="page-subtitle">
+                    Tüm siparişlerinizi yönetin ve takip edin
+                </p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="openAddOrderModal()">
+                    <i class="fas fa-plus"></i>
+                    Yeni Sipariş
+                </button>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>@(Model?.Count(o => !o.IsConfirmed) ?? 0)</h3>
+                    <p>Bekleyen Siparişler</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon confirmed">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>@(Model?.Count(o => o.IsConfirmed) ?? 0)</h3>
+                    <p>Onaylanmış Siparişler</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon total">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>@(Model?.Sum(o => o.GuestCount) ?? 0)</h3>
+                    <p>Toplam Misafir</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon today">
+                    <i class="fas fa-calendar-day"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>@(Model?.Count(o => o.StartDate.Date == DateTime.Today) ?? 0)</h3>
+                    <p>Bugünkü Siparişler</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters Section -->
+        <div class="filters-section">
+            <div class="filter-group">
+                <div class="filter-item">
+                    <label>Durum</label>
+                    <select class="filter-select" id="statusFilter">
+                        <option value="">Tüm Siparişler</option>
+                        <option value="confirmed">Onaylanmış</option>
+                        <option value="pending">Bekleyen</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <label>Tarih</label>
+                    <select class="filter-select" id="dateFilter">
+                        <option value="">Tüm Tarihler</option>
+                        <option value="today">Bugün</option>
+                        <option value="tomorrow">Yarın</option>
+                        <option value="this-week">Bu Hafta</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <label>Misafir Sayısı</label>
+                    <select class="filter-select" id="guestFilter">
+                        <option value="">Tüm Sayılar</option>
+                        <option value="1-2">1-2 Kişi</option>
+                        <option value="3-5">3-5 Kişi</option>
+                        <option value="6+">6+ Kişi</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <label>Arama</label>
+                    <input type="text" class="filter-input" id="searchFilter" placeholder="Müşteri adı veya ürün ara...">
+                </div>
+            </div>
+        </div>
+
+        <!-- Orders Grid -->
+        <div class="orders-grid" id="ordersGrid">
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var order in Model.OrderByDescending(o => o.StartDate))
+                {
+                    <div class="order-card"
+                         data-status="@(order.IsConfirmed ? "confirmed" : "pending")"
+                         data-guest-count="@order.GuestCount"
+                         data-start-date="@order.StartDate.ToString("yyyy-MM-dd")"
+                         data-search="@(order.UserFullName?.ToLower() + " " + order.ProductName?.ToLower())">
+
+                        <div class="order-header">
+                            <div class="order-info">
+                                <h3 class="order-title">@order.ProductName</h3>
+                                <div class="order-id">#@order.Id</div>
+                            </div>
+                            <div class="order-status @(order.IsConfirmed ? "confirmed" : "pending")">
+                                <i class="fas fa-@(order.IsConfirmed ? "check-circle" : "clock")"></i>
+                                <span>@(order.IsConfirmed ? "Onaylandı" : "Bekliyor")</span>
+                            </div>
+                        </div>
+
+                        <div class="order-details">
+                            <div class="detail-item">
+                                <i class="fas fa-user"></i>
+                                <div class="detail-content">
+                                    <span class="detail-label">Müşteri</span>
+                                    <span class="detail-value">@order.UserFullName</span>
+                                </div>
+                            </div>
+
+                            <div class="detail-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <div class="detail-content">
+                                    <span class="detail-label">Başlangıç</span>
+                                    <span class="detail-value">@order.StartDate.ToString("dd MMM yyyy, HH:mm")</span>
+                                </div>
+                            </div>
+
+                            @if (order.EndDate.HasValue)
+                            {
+                                <div class="detail-item">
+                                    <i class="fas fa-calendar-check"></i>
+                                    <div class="detail-content">
+                                        <span class="detail-label">Bitiş</span>
+                                        <span class="detail-value">@order.EndDate.Value.ToString("dd MMM yyyy, HH:mm")</span>
+                                    </div>
+                                </div>
+                            }
+
+                            <div class="detail-item">
+                                <i class="fas fa-users"></i>
+                                <div class="detail-content">
+                                    <span class="detail-label">Misafir Sayısı</span>
+                                    <span class="detail-value">@order.GuestCount kişi</span>
+                                </div>
+                            </div>
+
+                            @if (!string.IsNullOrEmpty(order.SpecialRequest))
+                            {
+                                <div class="detail-item special-request">
+                                    <i class="fas fa-comment-alt"></i>
+                                    <div class="detail-content">
+                                        <span class="detail-label">Özel İstek</span>
+                                        <span class="detail-value">@order.SpecialRequest</span>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="order-actions">
+                            <button class="btn btn-outline" onclick="viewOrderDetails(@order.Id)">
+                                <i class="fas fa-eye"></i>
+                                Detay
+                            </button>
+                            @if (!order.IsConfirmed)
+                            {
+                                <button class="btn btn-success" onclick="confirmOrder(@order.Id)">
+                                    <i class="fas fa-check"></i>
+                                    Onayla
+                                </button>
+                            }
+                            <button class="btn btn-primary" onclick="editOrder(@order.Id)">
+                                <i class="fas fa-edit"></i>
+                                Düzenle
+                            </button>
+                            <button class="btn btn-danger" onclick="deleteOrder(@order.Id)">
+                                <i class="fas fa-trash"></i>
+                                Sil
+                            </button>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="empty-state">
+                    <div class="empty-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <h3>Henüz sipariş bulunmuyor</h3>
+                    <p>İlk siparişinizi oluşturarak başlayın</p>
+                    <button class="btn btn-primary" onclick="openAddOrderModal()">
+                        <i class="fas fa-plus"></i>
+                        İlk Siparişinizi Oluşturun
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Page Header */
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding: 2rem 0;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .header-content {
+        flex: 1;
+    }
+
+    .page-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .page-subtitle {
+        color: var(--text-muted);
+        font-size: 1.1rem;
+        margin: 0;
+    }
+
+    .header-actions {
+        display: flex;
+        gap: 1rem;
+    }
+
+    /* Statistics Cards */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .stat-card {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        padding: 1.5rem;
+        border: 1px solid var(--border-color);
+        box-shadow: var(--shadow-light);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-medium);
+    }
+
+    .stat-icon {
+        width: 60px;
+        height: 60px;
+        background: var(--gradient-primary);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: white;
+    }
+
+    .stat-icon.confirmed {
+        background: linear-gradient(135deg, #10b981, #065f46);
+    }
+
+    .stat-icon.total {
+        background: linear-gradient(135deg, #3b82f6, #1e40af);
+    }
+
+    .stat-icon.today {
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+    }
+
+    .stat-content h3 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin: 0 0 0.25rem 0;
+    }
+
+    .stat-content p {
+        color: var(--text-muted);
+        margin: 0;
+        font-size: 0.9rem;
+    }
+
+    /* Buttons */
+    .btn {
+        padding: 0.75rem 1.5rem;
+        border-radius: 12px;
+        font-weight: 500;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .btn-primary {
+        background: var(--gradient-primary);
+        color: white;
+        box-shadow: var(--shadow-light);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-medium);
+    }
+
+    .btn-outline {
+        background: transparent;
+        color: var(--text-secondary);
+        border: 2px solid var(--border-color);
+    }
+
+    .btn-outline:hover {
+        background: var(--gradient-primary);
+        color: white;
+        border-color: transparent;
+        transform: translateY(-2px);
+    }
+
+    .btn-success {
+        background: linear-gradient(135deg, #10b981, #065f46);
+        color: white;
+        box-shadow: var(--shadow-light);
+    }
+
+    .btn-success:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-medium);
+    }
+
+    .btn-danger {
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+        color: white;
+        box-shadow: var(--shadow-light);
+    }
+
+    .btn-danger:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-medium);
+    }
+
+    /* Filters Section */
+    .filters-section {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        border: 1px solid var(--border-color);
+    }
+
+    .filter-group {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+
+    .filter-item label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: var(--text-secondary);
+    }
+
+    .filter-select, .filter-input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        background: white;
+    }
+
+    .filter-select:focus, .filter-input:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+    }
+
+    /* Orders Grid */
+    .orders-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+    }
+
+    .order-card {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 1.5rem;
+        box-shadow: var(--shadow-light);
+        border: 1px solid var(--border-color);
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .order-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-heavy);
+    }
+
+    .order-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .order-info {
+        flex: 1;
+    }
+
+    .order-title {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin: 0 0 0.5rem 0;
+    }
+
+    .order-id {
+        background: var(--gradient-secondary);
+        color: var(--text-primary);
+        padding: 0.25rem 0.5rem;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        display: inline-block;
+    }
+
+    .order-status {
+        padding: 0.5rem 1rem;
+        border-radius: 25px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .order-status.confirmed {
+        background: rgba(16, 185, 129, 0.1);
+        color: #065f46;
+        border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .order-status.pending {
+        background: rgba(245, 158, 11, 0.1);
+        color: #92400e;
+        border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .order-details {
+        margin-bottom: 1.5rem;
+    }
+
+    .detail-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .detail-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .detail-item i {
+        color: var(--primary-color);
+        font-size: 1rem;
+        margin-top: 0.2rem;
+        min-width: 16px;
+    }
+
+    .detail-content {
+        flex: 1;
+    }
+
+    .detail-label {
+        display: block;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        margin-bottom: 0.25rem;
+        font-weight: 500;
+    }
+
+    .detail-value {
+        display: block;
+        color: var(--text-primary);
+        font-weight: 500;
+    }
+
+    .special-request {
+        background: rgba(139, 69, 19, 0.05);
+        padding: 1rem;
+        border-radius: 12px;
+        border-left: 4px solid var(--primary-color);
+    }
+
+    .order-actions {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+
+    .order-actions .btn {
+        flex: 1;
+        min-width: 80px;
+        justify-content: center;
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    /* Empty State */
+    .empty-state {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 4rem 2rem;
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        border: 2px dashed var(--border-color);
+    }
+
+    .empty-icon {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto 1.5rem;
+        background: var(--gradient-secondary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        color: var(--text-primary);
+    }
+
+    .empty-state h3 {
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+    }
+
+    .empty-state p {
+        color: var(--text-muted);
+        margin-bottom: 2rem;
+    }
+
+    /* Responsive Design */
+    @@media (max-width: 768px) {
+        .page-header {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 1rem;
+        }
+
+        .header-actions {
+            justify-content: center;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        .stats-grid {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+
+        .orders-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .filter-group {
+            grid-template-columns: 1fr;
+        }
+
+        .order-actions {
+            flex-direction: column;
+        }
+
+        .order-actions .btn {
+            flex: none;
+        }
+    }
+
+    /* Animation */
+    .order-card {
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 0.6s ease forwards;
+    }
+
+    .order-card:nth-child(1) { animation-delay: 0.1s; }
+    .order-card:nth-child(2) { animation-delay: 0.2s; }
+    .order-card:nth-child(3) { animation-delay: 0.3s; }
+    .order-card:nth-child(4) { animation-delay: 0.4s; }
+    .order-card:nth-child(5) { animation-delay: 0.5s; }
+    .order-card:nth-child(6) { animation-delay: 0.6s; }
+
+    @@keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<script>// Filter functionality
+    function filterOrders() {
+        const statusFilter = document.getElementById('statusFilter').value;
+        const dateFilter = document.getElementById('dateFilter').value;
+        const guestFilter = document.getElementById('guestFilter').value;
+        const searchFilter = document.getElementById('searchFilter').value.toLowerCase();
+        const orderCards = document.querySelectorAll('.order-card');
+
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const nextWeek = new Date(today);
+        nextWeek.setDate(nextWeek.getDate() + 7);
+
+        orderCards.forEach(card => {
+            const status = card.dataset.status;
+            const guestCount = parseInt(card.dataset.guestCount) || 0;
+            const startDate = new Date(card.dataset.startDate);
+            const searchText = card.dataset.search || '';
+
+            // Status filter
+            const statusMatch = !statusFilter || status === statusFilter;
+
+            // Date filter
+            let dateMatch = true;
+            if (dateFilter === 'today') {
+                dateMatch = startDate.toDateString() === today.toDateString();
+            } else if (dateFilter === 'tomorrow') {
+                dateMatch = startDate.toDateString() === tomorrow.toDateString();
+            } else if (dateFilter === 'this-week') {
+                dateMatch = startDate >= today && startDate <= nextWeek;
+            }
+
+            // Guest filter
+            let guestMatch = true;
+            if (guestFilter === '1-2') {
+                guestMatch = guestCount >= 1 && guestCount <= 2;
+            } else if (guestFilter === '3-5') {
+                guestMatch = guestCount >= 3 && guestCount <= 5;
+            } else if (guestFilter === '6+') {
+                guestMatch = guestCount >= 6;
+            }
+
+            // Search filter
+            const searchMatch = !searchFilter || searchText.includes(searchFilter);
+
+            if (statusMatch && dateMatch && guestMatch && searchMatch) {
+                card.style.display = 'block';
+                card.style.animation = 'fadeInUp 0.6s ease forwards';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    // Event listeners for filters
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('statusFilter').addEventListener('change', filterOrders);
+        document.getElementById('dateFilter').addEventListener('change', filterOrders);
+        document.getElementById('guestFilter').addEventListener('change', filterOrders);
+        document.getElementById('searchFilter').addEventListener('input', filterOrders);
+    });
+
+    // Action functions
+    function viewOrderDetails(orderId) {
+        window.location.href = `/Order/Details/${orderId}`;
+    }
+
+    function confirmOrder(orderId) {
+        if (confirm('Bu siparişi onaylamak istediğinize emin misiniz?')) {
+            window.location.href = `/Order/Confirm/${orderId}`;
+        }
+    }
+
+    function editOrder(orderId) {
+        window.location.href = `/Order/Edit/${orderId}`;
+    }
+
+    function deleteOrder(orderId) {
+        if (confirm('Bu siparişi silmek istediğinize emin misiniz? Bu işlem geri alınamaz.')) {
+            window.location.href = `/Order/Delete/${orderId}`;
+        }
+    }
+
+    function openAddOrderModal() {
+        window.location.href = '/Order/Create';
+    }</script>

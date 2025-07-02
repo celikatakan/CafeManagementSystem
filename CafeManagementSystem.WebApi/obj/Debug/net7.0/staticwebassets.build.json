@@ -1,0 +1,88 @@
+{
+  "Version": 1,
+  "Hash": "0rwfsygRQGsI6NYjo+VRG1JJm0eDq902JIoiGqL3G4A=",
+  "Source": "CafeManagementSystem.WebApi",
+  "BasePath": "_content/CafeManagementSystem.WebApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "CafeManagementSystem.WebApi/wwwroot",
+      "Source": "CafeManagementSystem.WebApi",
+      "ContentRoot": "/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/wwwroot/",
+      "BasePath": "_content/CafeManagementSystem.WebApi",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/wwwroot/css/reviews.css",
+      "SourceId": "CafeManagementSystem.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/wwwroot/",
+      "BasePath": "_content/CafeManagementSystem.WebApi",
+      "RelativePath": "css/reviews.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/css/reviews.css"
+    },
+    {
+      "Identity": "/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/wwwroot/js/cafeReviews.js",
+      "SourceId": "CafeManagementSystem.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/wwwroot/",
+      "BasePath": "_content/CafeManagementSystem.WebApi",
+      "RelativePath": "js/cafeReviews.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/js/cafeReviews.js"
+    },
+    {
+      "Identity": "/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/wwwroot/reviews.css",
+      "SourceId": "CafeManagementSystem.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/wwwroot/",
+      "BasePath": "_content/CafeManagementSystem.WebApi",
+      "RelativePath": "reviews.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/reviews.css"
+    },
+    {
+      "Identity": "/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/wwwroot/reviews.js",
+      "SourceId": "CafeManagementSystem.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/wwwroot/",
+      "BasePath": "_content/CafeManagementSystem.WebApi",
+      "RelativePath": "reviews.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/reviews.js"
+    }
+  ]
+}

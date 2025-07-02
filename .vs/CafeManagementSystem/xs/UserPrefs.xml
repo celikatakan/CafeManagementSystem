@@ -1,0 +1,92 @@
+﻿<Properties StartupConfiguration="multipe">
+  <MonoDevelop.Ide.ItemProperties.CafeManagementSystem.Web PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations>
+    <MultiItemSolutionRunConfiguration Id="multipe" Name="multipe">
+      <Items>
+        <StartupItem ItemId="{7305EE51-1671-4F00-868F-FB4B2BFEB27C}" ItemName="CafeManagementSystem.Web" ConfigurationId="https" />
+        <StartupItem ItemId="{16492FD0-81EB-4E98-B537-00B1AF55BFD8}" ItemName="CafeManagementSystem.WebApi" ConfigurationId="https" />
+      </Items>
+    </MultiItemSolutionRunConfiguration>
+  </MultiItemStartupConfigurations>
+  <MonoDevelop.Ide.ItemProperties.CafeManagementSystem.WebApi PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="CafeManagementSystem.Web/Views/Order/Index.cshtml">
+    <Files>
+      <File FileName="CafeManagementSystem.WebApi/Controllers/CafesController.cs" Line="1" Column="1" />
+      <File FileName="CafeManagementSystem.Web/Controllers/CafeController.cs" Line="40" Column="6" />
+      <File FileName="CafeManagementSystem.Web/Views/Cafe/Index.cshtml" Line="1" Column="76" />
+      <File FileName="CafeManagementSystem.Web/Views/Shared/_Layout.cshtml" Line="439" Column="62" />
+      <File FileName="CafeManagementSystem.Web/Views/Cafe/Create.cshtml" Line="15" Column="30" />
+      <File FileName="CafeManagementSystem.Web/Views/Cafe/Edit.cshtml" />
+      <File FileName="CafeManagementSystem.Web/Services/ApiService.cs" Line="14" Column="13" />
+      <File FileName="CafeManagementSystem.Business/Operations/Cafe/Dtos/AddCafeDto.cs" />
+      <File FileName="CafeManagementSystem.WebApi/Controllers/FeaturesController.cs" />
+      <File FileName="CafeManagementSystem.Business/Operations/Cafe/ICafeService.cs" />
+      <File FileName="CafeManagementSystem.Business/Operations/Feature/IFeatureService.cs" />
+      <File FileName="CafeManagementSystem.Business/Operations/Feature/Dtos/FeatureDto.cs" />
+      <File FileName="CafeManagementSystem.Business/Operations/Feature/Dtos/AddFeatureDto.cs" />
+      <File FileName="CafeManagementSystem.Business/Operations/Cafe/Dtos/CafeDto.cs" Line="13" Column="1" />
+      <File FileName="CafeManagementSystem.Business/Operations/Feature/FeatureManager.cs" />
+      <File FileName="CafeManagementSystem.Business/Operations/Cafe/CafeManager.cs" Line="11" Column="44" />
+      <File FileName="CafeManagementSystem.Web/Controllers/HomeController.cs" />
+      <File FileName="CafeManagementSystem.WebApi/Models/AddCafeRequest.cs" Line="6" Column="29" />
+      <File FileName="CafeManagementSystem.Business/Operations/Cafe/Dtos/CafeFeatureDto.cs" Line="6" Column="2" />
+      <File FileName="CafeManagementSystem.Data/Entities/CafeEntity.cs" Line="12" Column="47" />
+      <File FileName="CafeManagementSystem.Web/Controllers/ProductController.cs" Line="77" Column="18" />
+      <File FileName="CafeManagementSystem.Web/Views/Product/Index.cshtml" Line="449" Column="15" />
+      <File FileName="CafeManagementSystem.Web/Views/Product/Create.cshtml" Line="211" Column="10" />
+      <File FileName="CafeManagementSystem.Web/Views/Product/Edit.cshtml" Line="18" Column="54" />
+      <File FileName="CafeManagementSystem.Business/Operations/Product/Dtos/ProductDto.cs" />
+      <File FileName="CafeManagementSystem.WebApi/Controllers/ProductsController.cs" />
+      <File FileName="CafeManagementSystem.WebApi/appsettings.json" />
+      <File FileName="CafeManagementSystem.WebApi/appsettings.Development.json" />
+      <File FileName="CafeManagementSystem.Business/Operations/Product/Dtos/AddProductDto.cs" Line="15" Column="1" />
+      <File FileName="CafeManagementSystem.Data/Entities/CafeFeatureEntity.cs" Line="10" Column="47" />
+      <File FileName="CafeManagementSystem.Data/Entities/OrderEntity.cs" Line="1" Column="1" />
+      <File FileName="CafeManagementSystem.Data/Entities/FeatureEntity.cs" Line="10" Column="77" />
+      <File FileName="CafeManagementSystem.WebApi/Models/UpdateCafeRequest.cs" Line="17" Column="1" />
+      <File FileName="CafeManagementSystem.Web/Controllers/OrderController.cs" Line="25" Column="54" />
+      <File FileName="CafeManagementSystem.Business/Operations/Order/Dtos/CreateOrderDto.cs" Line="16" Column="1" />
+      <File FileName="CafeManagementSystem.Business/Operations/Order/Dtos/OrderDto.cs" Line="4" Column="2" />
+      <File FileName="CafeManagementSystem.Business/Operations/Order/Dtos/UpdateOrderDto.cs" Line="14" Column="1" />
+      <File FileName="CafeManagementSystem.WebApi/Controllers/OrdersController.cs" Line="1" Column="1" />
+      <File FileName="CafeManagementSystem.Web/Views/Order/Index.cshtml" Line="9" Column="40" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="CafeManagementSystem" expanded="True">
+            <Node name="CafeManagementSystem.Business" expanded="True">
+              <Node name="Operations" expanded="True">
+                <Node name="Order" expanded="True">
+                  <Node name="Dtos" expanded="True" />
+                </Node>
+                <Node name="Product" expanded="True" />
+              </Node>
+            </Node>
+            <Node name="CafeManagementSystem.Web" expanded="True">
+              <Node name="Controllers" expanded="True" />
+              <Node name="Views" expanded="True">
+                <Node name="Cafe" expanded="True" />
+                <Node name="Order" expanded="True">
+                  <Node name="Index.cshtml" selected="True" />
+                </Node>
+                <Node name="Shared" expanded="True" />
+              </Node>
+            </Node>
+            <Node name="CafeManagementSystem.WebApi" expanded="True">
+              <Node name="Controllers" expanded="True" />
+              <Node name="Models" expanded="True" />
+              <Node name="wwwroot" expanded="True" />
+              <Node name="appsettings.json" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+</Properties>

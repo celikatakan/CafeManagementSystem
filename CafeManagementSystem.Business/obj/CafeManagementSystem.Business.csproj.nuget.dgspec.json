@@ -1,0 +1,156 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Business/CafeManagementSystem.Business.csproj": {}
+  },
+  "projects": {
+    "/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Business/CafeManagementSystem.Business.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Business/CafeManagementSystem.Business.csproj",
+        "projectName": "CafeManagementSystem.Business",
+        "projectPath": "/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Business/CafeManagementSystem.Business.csproj",
+        "packagesPath": "/Users/a1-07/.nuget/packages/",
+        "outputPath": "/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Business/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/a1-07/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Data/CafeManagementSystem.Data.csproj": {
+                "projectPath": "/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Data/CafeManagementSystem.Data.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.DataProtection.Abstractions": {
+              "target": "Package",
+              "version": "[7.0.19, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.410/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Data/CafeManagementSystem.Data.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Data/CafeManagementSystem.Data.csproj",
+        "projectName": "CafeManagementSystem.Data",
+        "projectPath": "/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Data/CafeManagementSystem.Data.csproj",
+        "packagesPath": "/Users/a1-07/.nuget/packages/",
+        "outputPath": "/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Data/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/a1-07/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.19, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.19, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[7.0.19, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.19, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.410/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

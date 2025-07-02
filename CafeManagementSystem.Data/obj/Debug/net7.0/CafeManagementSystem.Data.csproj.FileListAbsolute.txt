@@ -1,0 +1,14 @@
+/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Data/bin/Debug/net7.0/CafeManagementSystem.Data.deps.json
+/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Data/bin/Debug/net7.0/CafeManagementSystem.Data.runtimeconfig.json
+/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Data/bin/Debug/net7.0/CafeManagementSystem.Data.dll
+/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Data/bin/Debug/net7.0/CafeManagementSystem.Data.pdb
+/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Data/obj/Debug/net7.0/CafeManagementSystem.Data.csproj.AssemblyReference.cache
+/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Data/obj/Debug/net7.0/CafeManagementSystem.Data.GeneratedMSBuildEditorConfig.editorconfig
+/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Data/obj/Debug/net7.0/CafeManagementSystem.Data.AssemblyInfoInputs.cache
+/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Data/obj/Debug/net7.0/CafeManagementSystem.Data.AssemblyInfo.cs
+/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Data/obj/Debug/net7.0/CafeManagementSystem.Data.csproj.CoreCompileInputs.cache
+/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Data/obj/Debug/net7.0/CafeManagementSystem.Data.dll
+/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Data/obj/Debug/net7.0/refint/CafeManagementSystem.Data.dll
+/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Data/obj/Debug/net7.0/CafeManagementSystem.Data.pdb
+/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Data/obj/Debug/net7.0/CafeManagementSystem.Data.genruntimeconfig.cache
+/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Data/obj/Debug/net7.0/ref/CafeManagementSystem.Data.dll

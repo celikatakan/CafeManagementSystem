@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CafeManagementSystem.Data\CafeManagementSystem.Data.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="DataProtection\" />
+    <None Remove="Operations\" />
+    <None Remove="Types\" />
+    <None Remove="Operations\Feature\" />
+    <None Remove="Operations\Cafe\" />
+    <None Remove="Operations\User\" />
+    <None Remove="Operations\Setting\" />
+    <None Remove="Operations\Feature\Dtos\" />
+    <None Remove="Operations\Cafe\Dtos\" />
+    <None Remove="Operations\User\Dtos\" />
+    <None Remove="Operations\Product\" />
+    <None Remove="Operations\Product\Dtos\" />
+    <None Remove="Operations\Order\" />
+    <None Remove="Operations\Order\Dtos\" />
+    <None Remove="Operations\Review\" />
+    <None Remove="Operations\Review\Dtos\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DataProtection\" />
+    <Folder Include="Operations\" />
+    <Folder Include="Types\" />
+    <Folder Include="Operations\Feature\" />
+    <Folder Include="Operations\Cafe\" />
+    <Folder Include="Operations\User\" />
+    <Folder Include="Operations\Setting\" />
+    <Folder Include="Operations\Feature\Dtos\" />
+    <Folder Include="Operations\Cafe\Dtos\" />
+    <Folder Include="Operations\User\Dtos\" />
+    <Folder Include="Operations\Product\" />
+    <Folder Include="Operations\Product\Dtos\" />
+    <Folder Include="Operations\Order\" />
+    <Folder Include="Operations\Order\Dtos\" />
+    <Folder Include="Operations\Review\" />
+    <Folder Include="Operations\Review\Dtos\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection.Abstractions" Version="7.0.19" />
+  </ItemGroup>
+</Project>
