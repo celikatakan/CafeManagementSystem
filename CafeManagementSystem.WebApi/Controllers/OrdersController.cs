@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CafeManagementSystem.Business.Operations.Cafe;
 using CafeManagementSystem.Business.Operations.Order;
 using CafeManagementSystem.Business.Operations.Order.Dtos;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +21,18 @@ namespace CafeManagementSystem.WebApi.Controllers
             _orderService = orderService;
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            return Ok(await _orderService.GetOrderByIdAsync(id));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            return Ok(await _orderService.GetAllOrdersAsync());
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateOrderDto dto)
         {
@@ -32,11 +45,22 @@ namespace CafeManagementSystem.WebApi.Controllers
         {
             return Ok(await _orderService.UpdateOrderAsync(id, dto));
         }
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        [HttpPatch("{id}/IsConfirmed")]
+        public async Task<IActionResult> AddjustIsConfirmed(int id, bool changeTo)
         {
-            return Ok(await _orderService.GetOrderByIdAsync(id));
+            var result = await _orderService.AddjustIsConfirmed(id, changeTo);
+
+            if (!result.IsSucceed)
+                return BadRequest(result.Message);
+            else
+                return Ok(result);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _orderService.DeleteOrderAsync(id);
+            return NoContent();
         }
     }
 }

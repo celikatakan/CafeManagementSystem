@@ -9,7 +9,11 @@ namespace CafeManagementSystem.Business.Operations.User
 	{
         Task<ServiceMessage> AddUser(AddUserDto user);
         ServiceMessage<UserInfoDto> LoginUser(LoginUserDto user);
-        //Task<ServiceMessage<UserEntity>> GetUserById(int userId);
+        Task<List<UserInfoDto>> GetAllUsersAsync();
+        Task<UserInfoDto> GetUserByIdAsync(int id);
+        Task<UserInfoDto> CreateUserAsync(AddUserDto dto);
+        Task<UserInfoDto> UpdateUserAsync(int id, AddUserDto dto);
+        Task DeleteUserAsync(int id);
     }
 }
 

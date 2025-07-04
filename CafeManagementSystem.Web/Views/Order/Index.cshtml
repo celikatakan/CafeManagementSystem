@@ -56,7 +56,7 @@
                     <i class="fas fa-calendar-day"></i>
                 </div>
                 <div class="stat-content">
-                    <h3>@(Model?.Count(o => o.StartDate.Date == DateTime.Today) ?? 0)</h3>
+                    <h3>@(Model?.Count(o => o.CreatedDate.Date == DateTime.Today) ?? 0)</h3>
                     <p>Bugünkü Siparişler</p>
                 </div>
             </div>
@@ -102,12 +102,12 @@
         <div class="orders-grid" id="ordersGrid">
             @if (Model != null && Model.Any())
             {
-                @foreach (var order in Model.OrderByDescending(o => o.StartDate))
+                @foreach (var order in Model.OrderByDescending(o => o.CreatedDate))
                 {
                     <div class="order-card"
                          data-status="@(order.IsConfirmed ? "confirmed" : "pending")"
                          data-guest-count="@order.GuestCount"
-                         data-start-date="@order.StartDate.ToString("yyyy-MM-dd")"
+                         data-start-date="@order.CreatedDate.ToString("yyyy-MM-dd")"
                          data-search="@(order.UserFullName?.ToLower() + " " + order.ProductName?.ToLower())">
 
                         <div class="order-header">
@@ -134,21 +134,9 @@
                                 <i class="fas fa-calendar-alt"></i>
                                 <div class="detail-content">
                                     <span class="detail-label">Başlangıç</span>
-                                    <span class="detail-value">@order.StartDate.ToString("dd MMM yyyy, HH:mm")</span>
+                                    <span class="detail-value">@order.CreatedDate.ToString("dd MMM yyyy, HH:mm")</span>
                                 </div>
                             </div>
-
-                            @if (order.EndDate.HasValue)
-                            {
-                                <div class="detail-item">
-                                    <i class="fas fa-calendar-check"></i>
-                                    <div class="detail-content">
-                                        <span class="detail-label">Bitiş</span>
-                                        <span class="detail-value">@order.EndDate.Value.ToString("dd MMM yyyy, HH:mm")</span>
-                                    </div>
-                                </div>
-                            }
-
                             <div class="detail-item">
                                 <i class="fas fa-users"></i>
                                 <div class="detail-content">
@@ -715,7 +703,19 @@
 
     function confirmOrder(orderId) {
         if (confirm('Bu siparişi onaylamak istediğinize emin misiniz?')) {
-            window.location.href = `/Order/Confirm/${orderId}`;
+            fetch(`/Order/Confirm/${orderId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    alert('Sipariş onaylanamadı!');
+                }
+            });
         }
     }
 

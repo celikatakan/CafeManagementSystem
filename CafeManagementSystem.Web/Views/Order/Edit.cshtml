@@ -1,0 +1,126 @@
+<!-- CafeManagementSystem.Business.Operations.Order.Dtos.UpdateOrderDto
+<div class="bg-animation"></div>
+
+<div class="main-content">
+    <div class="container">-->
+        <!-- Page Header -->
+        <!--<div class="page-header">
+            <div class="header-content">
+                <h1 class="page-title">
+                    <i class="fas fa-edit"></i>
+                    Sipariş Düzenle
+                </h1>
+                <p class="page-subtitle">
+                    Sipariş bilgilerini güncelleyin
+                </p>
+            </div>
+            <div class="header-actions">
+                <a href="@Url.Action("Index")" class="btn btn-outline">
+                    <i class="fas fa-arrow-left"></i>
+                    Geri Dön
+                </a>
+            </div>
+        </div>-->
+
+        <!-- Form Section -->
+        <!--<div class="form-section">
+            <div class="form-card">
+                <form asp-action="Edit" method="post" class="order-form">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input asp-for="Id" type="hidden" />
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-coffee"></i>
+                                Ürün
+                            </label>
+                            <input type="text" class="form-control" value="@Model.ProductName" readonly />
+                            <small class="form-text text-muted">Ürün değiştirilemez</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-user"></i>
+                                Müşteri
+                            </label>
+                            <input type="text" class="form-control" value="@Model.UserFullName" readonly />
+                            <small class="form-text text-muted">Müşteri değiştirilemez</small>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-calendar-alt"></i>
+                                Başlangıç Tarihi
+                            </label>
+                            <input type="text" class="form-control" value="@Model.StartDate.ToString("dd MMM yyyy, HH:mm")" readonly />
+                            <small class="form-text text-muted">Başlangıç tarihi değiştirilemez</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-users"></i>
+                                Misafir Sayısı
+                            </label>
+                            <input type="text" class="form-control" value="@Model.GuestCount kişi" readonly />
+                            <small class="form-text text-muted">Misafir sayısı değiştirilemez</small>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-comment-alt"></i>
+                            Özel İstekler
+                        </label>
+                        <textarea class="form-control" rows="4" readonly>@Model.SpecialRequest</textarea>
+                        <small class="form-text text-muted">Özel istekler değiştirilemez</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="IsConfirmed" class="form-label">
+                            <i class="fas fa-check-circle"></i>
+                            Sipariş Durumu
+                        </label>
+                        <div class="form-check">
+                            <input asp-for="IsConfirmed" type="checkbox" class="form-check-input" id="isConfirmed" />
+                            <label class="form-check-label" for="isConfirmed">
+                                Siparişi onayla
+                            </label>
+                        </div>
+                        <span asp-validation-for="IsConfirmed" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            Değişiklikleri Kaydet
+                        </button>
+                        <a href="@Url.Action("Index")" class="btn btn-outline">
+                            <i class="fas fa-times"></i>
+                            İptal
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Form submit işlemi
+            $('.order-form').on('submit', function (e) {
+                var isConfirmed = $('#isConfirmed').is(':checked');
+                if (!isConfirmed) {
+                    if (!confirm('Siparişi onaylamadan kaydetmek istediğinizden emin misiniz?')) {
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+            });
+        });
+    </script>
+}--> 

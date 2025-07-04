@@ -8,7 +8,7 @@ namespace CafeManagementSystem.Business.Operations.Order.Dtos
         [Required] public int ProductId { get; init; }
         [Required] public int UserId { get; init; }
         [Range(1, 10)] public int GuestCount { get; init; } = 1;
-        public DateTime? StartDate { get; init; }
+        public DateTime? CreatedDate { get; init; }
         public string? SpecialRequest { get; init; }
     }
 }

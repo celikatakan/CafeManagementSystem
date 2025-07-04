@@ -7,8 +7,7 @@ namespace CafeManagementSystem.Business.Operations.Order.Dtos
     string ProductName,
     int UserId,
     string UserFullName,
-    DateTime StartDate,
-    DateTime? EndDate,
+    DateTime CreatedDate,
     int GuestCount,
     bool IsConfirmed,
     string? SpecialRequest

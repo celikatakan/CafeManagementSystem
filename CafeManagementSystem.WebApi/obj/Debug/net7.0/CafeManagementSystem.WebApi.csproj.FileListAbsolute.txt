@@ -5,9 +5,13 @@
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/obj/Debug/net7.0/CafeManagementSystem.WebApi.csproj.CoreCompileInputs.cache
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/obj/Debug/net7.0/CafeManagementSystem.WebApi.MvcApplicationPartsAssemblyInfo.cs
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/obj/Debug/net7.0/CafeManagementSystem.WebApi.MvcApplicationPartsAssemblyInfo.cache
+/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/obj/Debug/net7.0/CafeManagementSystem.WebApi.RazorAssemblyInfo.cache
+/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/obj/Debug/net7.0/CafeManagementSystem.WebApi.RazorAssemblyInfo.cs
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/bin/Debug/net7.0/appsettings.Development.json
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/bin/Debug/net7.0/appsettings.json
+/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/bin/Debug/net7.0/CafeManagementSystem.WebApi.staticwebassets.runtime.json
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/bin/Debug/net7.0/CafeManagementSystem.WebApi
+/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/bin/Debug/net7.0/App_Data/Keys/key-c3e22ff3-122f-424d-8816-0c512fd12b5d.xml
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/bin/Debug/net7.0/CafeManagementSystem.WebApi.deps.json
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/bin/Debug/net7.0/CafeManagementSystem.WebApi.runtimeconfig.json
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/bin/Debug/net7.0/CafeManagementSystem.WebApi.dll
@@ -79,8 +83,4 @@
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/obj/Debug/net7.0/CafeManagementSystem.WebApi.pdb
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/obj/Debug/net7.0/CafeManagementSystem.WebApi.genruntimeconfig.cache
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/obj/Debug/net7.0/ref/CafeManagementSystem.WebApi.dll
-/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/bin/Debug/net7.0/App_Data/Keys/key-c3e22ff3-122f-424d-8816-0c512fd12b5d.xml
-/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/obj/Debug/net7.0/CafeManagementSystem.WebApi.RazorAssemblyInfo.cache
-/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/obj/Debug/net7.0/CafeManagementSystem.WebApi.RazorAssemblyInfo.cs
-/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/bin/Debug/net7.0/CafeManagementSystem.WebApi.staticwebassets.runtime.json
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/obj/Debug/net7.0/CafeManagementSystem.WebApi.csproj.CopyComplete

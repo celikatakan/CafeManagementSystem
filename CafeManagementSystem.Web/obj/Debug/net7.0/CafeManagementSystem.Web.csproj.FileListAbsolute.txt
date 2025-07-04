@@ -68,9 +68,9 @@
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Web/obj/Debug/net7.0/scopedcss/Views/Shared/_Layout.cshtml.rz.scp.css
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Web/obj/Debug/net7.0/scopedcss/bundle/CafeManagementSystem.Web.styles.css
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Web/obj/Debug/net7.0/scopedcss/projectbundle/CafeManagementSystem.Web.bundle.scp.css
-/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Web/obj/Debug/net7.0/CafeManagementSystem.Web.csproj.CopyComplete
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Web/obj/Debug/net7.0/CafeManagementSystem.Web.dll
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Web/obj/Debug/net7.0/refint/CafeManagementSystem.Web.dll
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Web/obj/Debug/net7.0/CafeManagementSystem.Web.pdb
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Web/obj/Debug/net7.0/CafeManagementSystem.Web.genruntimeconfig.cache
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Web/obj/Debug/net7.0/ref/CafeManagementSystem.Web.dll
+/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Web/obj/Debug/net7.0/CafeManagementSystem.Web.csproj.CopyComplete

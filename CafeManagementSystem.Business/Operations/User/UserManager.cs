@@ -95,6 +95,7 @@ namespace CafeManagementSystem.Business.Operations.User
                     IsSucceed = true,
                     Data = new UserInfoDto
                     {
+                        Id = userEntity.Id,
                         Email = userEntity.Email,
                         FirstName = userEntity.FirstName,
                         LastName = userEntity.LastName,
@@ -110,8 +111,103 @@ namespace CafeManagementSystem.Business.Operations.User
                     Message = "Kullanıcı adı veya şifre hatalı."
                 };
             }
-            
+        }
 
+        public async Task<List<UserInfoDto>> GetAllUsersAsync()
+        {
+            var users = await _userRepository.GetAll().ToListAsync();
+            return users.Select(u => new UserInfoDto
+            {
+                Id = u.Id,
+                Email = u.Email,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                UserType = u.UserType
+            }).ToList();
+        }
+
+        public async Task<UserInfoDto> GetUserByIdAsync(int id)
+        {
+            var user = await _userRepository.GetAll(u => u.Id == id).FirstOrDefaultAsync();
+            if (user == null)
+                throw new KeyNotFoundException($"User with ID {id} not found");
+
+            return new UserInfoDto
+            {
+                Id = user.Id,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserType = user.UserType
+            };
+        }
+
+        public async Task<UserInfoDto> CreateUserAsync(AddUserDto dto)
+        {
+            var hasMail = _userRepository.GetAll(x => x.Email.ToLower() == dto.Email.ToLower());
+            if (hasMail.Any())
+                throw new InvalidOperationException("Email adresi mevcut.");
+
+            var userEntity = new UserEntity
+            {
+                Email = dto.Email,
+                Password = _protector.Protect(dto.Password),
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                BirthDate = dto.BirthDate,
+                UserType = UserType.Customer
+            };
+
+            _userRepository.Add(userEntity);
+            await _unitOfWork.SaveChangesAsync();
+
+            return new UserInfoDto
+            {
+                Id = userEntity.Id,
+                Email = userEntity.Email,
+                FirstName = userEntity.FirstName,
+                LastName = userEntity.LastName,
+                UserType = userEntity.UserType
+            };
+        }
+
+        public async Task<UserInfoDto> UpdateUserAsync(int id, AddUserDto dto)
+        {
+            var user = await _userRepository.GetAll(u => u.Id == id).FirstOrDefaultAsync();
+            if (user == null)
+                throw new KeyNotFoundException($"User with ID {id} not found");
+
+            // Email kontrolü (kendi email'i hariç)
+            var hasMail = _userRepository.GetAll(x => x.Email.ToLower() == dto.Email.ToLower() && x.Id != id);
+            if (hasMail.Any())
+                throw new InvalidOperationException("Email adresi mevcut.");
+
+            user.Email = dto.Email;
+            user.Password = _protector.Protect(dto.Password);
+            user.FirstName = dto.FirstName;
+            user.LastName = dto.LastName;
+            user.BirthDate = dto.BirthDate;
+
+            await _unitOfWork.SaveChangesAsync();
+
+            return new UserInfoDto
+            {
+                Id = user.Id,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserType = user.UserType
+            };
+        }
+
+        public async Task DeleteUserAsync(int id)
+        {
+            var user = await _userRepository.GetAll(u => u.Id == id).FirstOrDefaultAsync();
+            if (user == null)
+                throw new KeyNotFoundException($"User with ID {id} not found");
+
+            _userRepository.Delete(user);
+            await _unitOfWork.SaveChangesAsync();
         }
     }
 }

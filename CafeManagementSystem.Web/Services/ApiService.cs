@@ -46,6 +46,15 @@ namespace CafeManagementSystem.Web.Services
             var response = await _httpClient.DeleteAsync($"{_baseUrl}{endpoint}");
             response.EnsureSuccessStatusCode();
         }
+        public async Task PatchAsync(string endpoint, object data = null)
+        {
+            var request = new HttpRequestMessage(new HttpMethod("PATCH"), $"{_baseUrl}{endpoint}")
+            {
+                Content = data != null ? JsonContent.Create(data) : null
+            };
+            var response = await _httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+        }
     }
 }
 

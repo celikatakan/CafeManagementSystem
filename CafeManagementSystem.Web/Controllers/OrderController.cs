@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CafeManagementSystem.Business.Operations.Order.Dtos;
 using CafeManagementSystem.Business.Operations.Product.Dtos;
+using CafeManagementSystem.Business.Operations.User.Dtos;
 using CafeManagementSystem.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,8 +29,16 @@ namespace CafeManagementSystem.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
+            // Ürün ve kullanıcı listelerini yükle
+            var products = await _api.GetAsync<List<ProductDto>>("api/Products");
+            var users = await _api.GetAsync<List<UserInfoDto>>("api/Users");
+
+            ViewBag.Products = products;
+            ViewBag.Users = users;
+
             return View(new CreateOrderDto());
         }
+
         [HttpPost]
         public async Task<IActionResult> Create(CreateOrderDto model)
         {
@@ -42,10 +51,13 @@ namespace CafeManagementSystem.Web.Controllers
                 }
                 catch (Exception ex)
                 {
-                    // API'den dönen hatayı kullanıcıya göster
-                    ModelState.AddModelError("Sipariş", "Kayıt sırasında bir hata oluştu: " + ex.Message);
+                    ModelState.AddModelError("", "Sipariş oluşturulamadı: " + ex.Message);
                 }
             }
+
+            // Hata durumunda listeleri tekrar yükle
+            ViewBag.Products = await _api.GetAsync<List<ProductDto>>("api/Products");
+            ViewBag.Users = await _api.GetAsync<List<UserInfoDto>>("api/Users");
 
             return View(model);
         }
@@ -72,6 +84,12 @@ namespace CafeManagementSystem.Web.Controllers
             }
 
             return View(model);
+        }
+        [HttpPatch]
+        public async Task<IActionResult> Confirm(int id)
+        {
+            await _api.PatchAsync($"api/Orders/{id}/confirm");
+            return NoContent();
         }
         [HttpGet]
         public async Task<IActionResult> Delete(int id)

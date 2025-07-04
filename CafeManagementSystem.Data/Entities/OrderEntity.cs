@@ -7,8 +7,6 @@ namespace CafeManagementSystem.Data.Entities
     {
         public int ProductId { get; set; }
         public int UserId { get; set; }
-        public DateTime StartDate { get; set; } = DateTime.UtcNow;
-        public DateTime EndDate { get; set; }
         public int GuestCount { get; set; } = 1;
         public bool IsConfirmed { get; set; } = false;
         public string? SpecialRequest { get; set; }

@@ -1,5 +1,6 @@
 ﻿using System;
 using CafeManagementSystem.Business.Operations.Order.Dtos;
+using CafeManagementSystem.Business.Types;
 using CafeManagementSystem.Data.Entities;
 using CafeManagementSystem.Data.Repositories;
 using CafeManagementSystem.Data.UnitOfWork;
@@ -47,7 +48,7 @@ namespace CafeManagementSystem.Business.Operations.Order
             {
                 ProductId = dto.ProductId,
                 UserId = dto.UserId,
-                StartDate = dto.StartDate ?? DateTime.UtcNow,
+                CreatedDate = dto.CreatedDate ?? DateTime.UtcNow,
                 GuestCount = dto.GuestCount,
                 SpecialRequest = dto.SpecialRequest,
                 IsConfirmed = false
@@ -75,8 +76,7 @@ namespace CafeManagementSystem.Business.Operations.Order
                     : (_userRepository.GetById(fullOrder.UserId)) is UserEntity u
                         ? $"{u.FirstName} {u.LastName}"
                         : "Kullanıcı bilgisi yok",
-        StartDate: fullOrder.StartDate,
-        EndDate: fullOrder.EndDate,
+        CreatedDate: fullOrder.CreatedDate,
         GuestCount: fullOrder.GuestCount,
         IsConfirmed: fullOrder.IsConfirmed,
         SpecialRequest: fullOrder.SpecialRequest
@@ -115,8 +115,7 @@ namespace CafeManagementSystem.Business.Operations.Order
                 productName,
                 order.UserId,
                 userFullName,
-                order.StartDate,
-                order.EndDate,
+                order.CreatedDate,
                 order.GuestCount,
                 order.IsConfirmed,
                 order.SpecialRequest
@@ -134,8 +133,7 @@ namespace CafeManagementSystem.Business.Operations.Order
             o.Product.ProductName,
             o.UserId,
             $"{o.User.FirstName} {o.User.LastName}",
-            o.StartDate,
-            o.EndDate,
+            o.CreatedDate,
             o.GuestCount,
             o.IsConfirmed,
             o.SpecialRequest
@@ -157,13 +155,74 @@ namespace CafeManagementSystem.Business.Operations.Order
              o.Product.ProductName,
              o.UserId,
              $"{o.User.FirstName} {o.User.LastName}",
-             o.StartDate,
-             o.EndDate,
+             o.CreatedDate,
              o.GuestCount,
              o.IsConfirmed,
              o.SpecialRequest
          ))
          .ToListAsync();
+        }
+
+        public async Task<List<OrderDto>> GetAllOrdersAsync()
+        {
+            return await _orderRepository
+                .GetAll()
+                .Include(o => o.Product)
+                .Include(o => o.User)
+                .Select(o => new OrderDto(
+                    o.Id,
+                    o.ProductId,
+                    o.Product.ProductName,
+                    o.UserId,
+                    $"{o.User.FirstName} {o.User.LastName}",
+                    o.CreatedDate,
+                    o.GuestCount,
+                    o.IsConfirmed,
+                    o.SpecialRequest
+                ))
+                .ToListAsync();
+        }
+
+        public async Task DeleteOrderAsync(int id)
+        {
+            var order = await _orderRepository.GetAll(o => o.Id == id).FirstOrDefaultAsync();
+            if (order == null)
+                throw new KeyNotFoundException($"Order with ID {id} not found");
+
+            _orderRepository.Delete(order);
+            await _unitOfWork.SaveChangesAsync();
+        }
+
+        public async Task<ServiceMessage> AddjustIsConfirmed(int id, bool changeTo)
+        {
+            var order = _orderRepository.GetById(id);
+
+            if (order == null)
+            {
+                return new ServiceMessage
+                {
+                    IsSucceed = false,
+                    Message = "Kafe bulunamadı."
+                };
+            }
+            order.IsConfirmed = changeTo;
+
+            _orderRepository.Update(order);
+
+            try
+            {
+                await _unitOfWork.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+
+                throw new Exception("Sipariş onaylanırken hata oluştu.");
+            }
+            return new ServiceMessage
+            {
+                IsSucceed = true,
+                Message = "Sipariş Başarıyla onaylandı."
+            };
         }
     }
 }
