@@ -10,7 +10,9 @@ namespace CafeManagementSystem.Business.Operations.Order.Dtos
     DateTime CreatedDate,
     int GuestCount,
     bool IsConfirmed,
-    string? SpecialRequest
+    string? SpecialRequest,
+    int CafeId,          
+    string CafeName
 );
 }
 

@@ -1,5 +1,8 @@
-﻿    @model List<CafeManagementSystem.Business.Operations.Cafe.Dtos.CafeDto>
+﻿@model List<CafeManagementSystem.Business.Operations.Cafe.Dtos.CafeDto>
 
+
+@if (ViewBag.UserIsAdmin == true)
+{
     <div class="bg-animation"></div>
 
     <div class="main-content">
@@ -138,6 +141,8 @@
                         </button>
                     </div>
                 }
+
+
             </div>
         </div>
     </div>
@@ -202,10 +207,10 @@
             box-shadow: var(--shadow-light);
         }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-medium);
-        }
+            .btn-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-medium);
+            }
 
         .btn-outline {
             background: transparent;
@@ -213,12 +218,12 @@
             border: 2px solid var(--border-color);
         }
 
-        .btn-outline:hover {
-            background: var(--gradient-primary);
-            color: white;
-            border-color: transparent;
-            transform: translateY(-2px);
-        }
+            .btn-outline:hover {
+                background: var(--gradient-primary);
+                color: white;
+                border-color: transparent;
+                transform: translateY(-2px);
+            }
 
         /* Filters Section */
         .filters-section {
@@ -253,11 +258,11 @@
             background: white;
         }
 
-        .filter-select:focus, .filter-input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
-        }
+            .filter-select:focus, .filter-input:focus {
+                outline: none;
+                border-color: var(--primary-color);
+                box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+            }
 
         /* Cafes Grid */
         .cafes-grid {
@@ -278,10 +283,10 @@
             position: relative;
         }
 
-        .cafe-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-heavy);
-        }
+            .cafe-card:hover {
+                transform: translateY(-8px);
+                box-shadow: var(--shadow-heavy);
+            }
 
         .cafe-image {
             position: relative;
@@ -289,12 +294,12 @@
             overflow: hidden;
         }
 
-        .cafe-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
+            .cafe-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.3s ease;
+            }
 
         .cafe-card:hover .cafe-image img {
             transform: scale(1.05);
@@ -313,14 +318,14 @@
             gap: 0.25rem;
         }
 
-        .cafe-rating .fa-star {
-            color: #ffd700;
-            font-size: 0.8rem;
-        }
+            .cafe-rating .fa-star {
+                color: #ffd700;
+                font-size: 0.8rem;
+            }
 
-        .cafe-rating .fa-star:not(.active) {
-            color: rgba(255, 255, 255, 0.3);
-        }
+                .cafe-rating .fa-star:not(.active) {
+                    color: rgba(255, 255, 255, 0.3);
+                }
 
         .rating-number {
             color: white;
@@ -371,9 +376,9 @@
             font-size: 0.9rem;
         }
 
-        .cafe-location i {
-            color: var(--primary-color);
-        }
+            .cafe-location i {
+                color: var(--primary-color);
+            }
 
         .cafe-features {
             display: flex;
@@ -393,10 +398,10 @@
             gap: 0.25rem;
         }
 
-        .feature-tag i {
-            font-size: 0.7rem;
-            color: var(--primary-color);
-        }
+            .feature-tag i {
+                font-size: 0.7rem;
+                color: var(--primary-color);
+            }
 
         .more-features {
             background: var(--gradient-primary);
@@ -414,12 +419,12 @@
             gap: 0.75rem;
         }
 
-        .cafe-actions .btn {
-            flex: 1;
-            justify-content: center;
-            padding: 0.6rem 1rem;
-            font-size: 0.85rem;
-        }
+            .cafe-actions .btn {
+                flex: 1;
+                justify-content: center;
+                padding: 0.6rem 1rem;
+                font-size: 0.85rem;
+            }
 
         /* Empty State */
         .empty-state {
@@ -493,12 +498,29 @@
             animation: fadeInUp 0.6s ease forwards;
         }
 
-        .cafe-card:nth-child(1) { animation-delay: 0.1s; }
-        .cafe-card:nth-child(2) { animation-delay: 0.2s; }
-        .cafe-card:nth-child(3) { animation-delay: 0.3s; }
-        .cafe-card:nth-child(4) { animation-delay: 0.4s; }
-        .cafe-card:nth-child(5) { animation-delay: 0.5s; }
-        .cafe-card:nth-child(6) { animation-delay: 0.6s; }
+            .cafe-card:nth-child(1) {
+                animation-delay: 0.1s;
+            }
+
+            .cafe-card:nth-child(2) {
+                animation-delay: 0.2s;
+            }
+
+            .cafe-card:nth-child(3) {
+                animation-delay: 0.3s;
+            }
+
+            .cafe-card:nth-child(4) {
+                animation-delay: 0.4s;
+            }
+
+            .cafe-card:nth-child(5) {
+                animation-delay: 0.5s;
+            }
+
+            .cafe-card:nth-child(6) {
+                animation-delay: 0.6s;
+            }
     </style>
 
     <script>// Filter functionality
@@ -548,3 +570,16 @@
             // Yeni kafe ekleme sayfasına yönlendirme
             window.location.href = '/Cafe/Create';
         }</script>
+
+}
+else
+{
+    <div style="text-align: center; padding: 5rem;">
+        <h1 style="font-size: 5rem; color: #e74c3c;">404</h1>
+        <h2 style="color: #555;">Yetkisiz Erişim</h2>
+        <p>Bu sayfaya erişim yetkiniz bulunmamaktadır.</p>
+        <a href="/" class="btn btn-primary" style="margin-top: 2rem;">
+            Ana Sayfaya Dön
+        </a>
+    </div>
+}

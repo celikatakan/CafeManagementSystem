@@ -1,8 +1,8 @@
-﻿<Properties GitUserInfo="UsingGIT" StartupConfiguration="multipe">
+﻿<Properties StartupConfiguration="multipe" GitUserInfo="UsingGIT">
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.CafeManagementSystem.Web PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints />
   <MultiItemStartupConfigurations>
     <MultiItemSolutionRunConfiguration Id="multipe" Name="multipe">
       <Items>
@@ -11,16 +11,15 @@
       </Items>
     </MultiItemSolutionRunConfiguration>
   </MultiItemStartupConfigurations>
-  <MonoDevelop.Ide.ItemProperties.CafeManagementSystem.WebApi PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="CafeManagementSystem.WebApi/Jwt/JwtHelper.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="CafeManagementSystem.Web/Controllers/DashboardController.cs">
     <Files>
-      <File FileName="CafeManagementSystem.WebApi/Controllers/CafesController.cs" Line="41" Column="1" />
+      <File FileName="CafeManagementSystem.WebApi/Controllers/CafesController.cs" />
       <File FileName="CafeManagementSystem.Web/Controllers/CafeController.cs" />
       <File FileName="CafeManagementSystem.Web/Views/Cafe/Index.cshtml" />
       <File FileName="CafeManagementSystem.Web/Views/Shared/_Layout.cshtml" />
       <File FileName="CafeManagementSystem.Web/Views/Cafe/Create.cshtml" />
       <File FileName="CafeManagementSystem.Web/Views/Cafe/Edit.cshtml" />
-      <File FileName="CafeManagementSystem.Web/Services/ApiService.cs" />
+      <File FileName="CafeManagementSystem.Web/Services/ApiService.cs" Line="57" Column="10" />
       <File FileName="CafeManagementSystem.Business/Operations/Cafe/Dtos/AddCafeDto.cs" />
       <File FileName="CafeManagementSystem.WebApi/Controllers/FeaturesController.cs" />
       <File FileName="CafeManagementSystem.Business/Operations/Cafe/ICafeService.cs" />
@@ -39,7 +38,7 @@
       <File FileName="CafeManagementSystem.Web/Views/Product/Create.cshtml" />
       <File FileName="CafeManagementSystem.Web/Views/Product/Edit.cshtml" />
       <File FileName="CafeManagementSystem.Business/Operations/Product/Dtos/ProductDto.cs" />
-      <File FileName="CafeManagementSystem.WebApi/Controllers/ProductsController.cs" />
+      <File FileName="CafeManagementSystem.WebApi/Controllers/ProductsController.cs" Line="1" Column="1" />
       <File FileName="CafeManagementSystem.WebApi/appsettings.json" />
       <File FileName="CafeManagementSystem.WebApi/appsettings.Development.json" />
       <File FileName="CafeManagementSystem.Business/Operations/Product/Dtos/AddProductDto.cs" />
@@ -47,32 +46,51 @@
       <File FileName="CafeManagementSystem.Data/Entities/OrderEntity.cs" />
       <File FileName="CafeManagementSystem.Data/Entities/FeatureEntity.cs" />
       <File FileName="CafeManagementSystem.WebApi/Models/UpdateCafeRequest.cs" />
-      <File FileName="CafeManagementSystem.Web/Controllers/OrderController.cs" />
+      <File FileName="CafeManagementSystem.Web/Controllers/OrderController.cs" Line="111" Column="10" />
       <File FileName="CafeManagementSystem.Business/Operations/Order/Dtos/CreateOrderDto.cs" />
-      <File FileName="CafeManagementSystem.Business/Operations/Order/Dtos/OrderDto.cs" />
+      <File FileName="CafeManagementSystem.Business/Operations/Order/Dtos/OrderDto.cs" Line="14" Column="26" />
       <File FileName="CafeManagementSystem.Business/Operations/Order/Dtos/UpdateOrderDto.cs" />
-      <File FileName="CafeManagementSystem.WebApi/Controllers/OrdersController.cs" />
-      <File FileName="CafeManagementSystem.Web/Views/Order/Index.cshtml" Line="9" Column="40" />
-      <File FileName="CafeManagementSystem.WebApi/Controllers/AuthController.cs" Line="1" Column="1" />
-      <File FileName="CafeManagementSystem.WebApi/Jwt/JwtClaimNames.cs" Line="1" Column="1" />
-      <File FileName="CafeManagementSystem.WebApi/Jwt/JwtDto.cs" Line="1" Column="1" />
-      <File FileName="CafeManagementSystem.WebApi/Jwt/JwtHelper.cs" Line="1" Column="1" />
+      <File FileName="CafeManagementSystem.WebApi/Controllers/OrdersController.cs" Line="31" Column="10" />
+      <File FileName="CafeManagementSystem.Web/Views/Order/Index.cshtml" Line="709" Column="14" />
+      <File FileName="CafeManagementSystem.WebApi/Controllers/AuthController.cs" />
+      <File FileName="CafeManagementSystem.WebApi/Jwt/JwtClaimNames.cs" />
+      <File FileName="CafeManagementSystem.WebApi/Jwt/JwtDto.cs" />
+      <File FileName="CafeManagementSystem.WebApi/Jwt/JwtHelper.cs" />
+      <File FileName="CafeManagementSystem.Data/Enums/UserType.cs" />
+      <File FileName="CafeManagementSystem.Business/Operations/Order/IOrderService.cs" Line="19" Column="1" />
+      <File FileName="CafeManagementSystem.Business/Operations/User/IUserService.cs" />
+      <File FileName="CafeManagementSystem.Business/Operations/User/UserManager.cs" />
+      <File FileName="CafeManagementSystem.Business/Operations/Order/OrderManager.cs" Line="85" Column="48" />
+      <File FileName="CafeManagementSystem.Web/Views/Order/Edit.cshtml" Line="402" Column="7" />
+      <File FileName="CafeManagementSystem.Web/Views/Order/Create.cshtml" />
+      <File FileName="CafeManagementSystem.Data/Entities/ProductEntity.cs" />
+      <File FileName="CafeManagementSystem.Data/Migrations/20250704120450_OrderEntityUpdated.Designer.cs" />
+      <File FileName="CafeManagementSystem.Web/Views/Home/Index.cshtml" />
+      <File FileName="CafeManagementSystem.Web/Views/Home/Privacy.cshtml" />
+      <File FileName="CafeManagementSystem.Web/Views/Order/Details.cshtml" Line="405" Column="6" />
+      <File FileName="CafeManagementSystem.Web/Views/Dashboard/Index.cshtml" Line="1" Column="53" />
+      <File FileName="CafeManagementSystem.Web/Controllers/DashboardController.cs" Line="204" Column="18" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="CafeManagementSystem" expanded="True">
-            <Node name="CafeManagementSystem.WebApi">
-              <Node name="Controllers" expanded="True" />
-              <Node name="Jwt" expanded="True">
-                <Node name="JwtHelper.cs" selected="True" />
+            <Node name="CafeManagementSystem.Business" expanded="True">
+              <Node name="Operations" expanded="True">
+                <Node name="Cafe" expanded="True" />
+                <Node name="Order" expanded="True">
+                  <Node name="Dtos" expanded="True" />
+                </Node>
+                <Node name="Product" expanded="True" />
+                <Node name="User" expanded="True" />
               </Node>
-              <Node name="wwwroot" expanded="True" />
-              <Node name="appsettings.json" expanded="True" />
             </Node>
           </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.CafeManagementSystem.Web PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
+  <MonoDevelop.Ide.ItemProperties.CafeManagementSystem.WebApi PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
 </Properties>

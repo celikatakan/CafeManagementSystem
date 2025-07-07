@@ -24,7 +24,10 @@ namespace CafeManagementSystem.WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            return Ok(await _orderService.GetOrderByIdAsync(id));
+            var order = await _orderService.GetOrderByIdAsync(id);
+            if (order == null)
+                return NotFound();
+            return Ok(order);
         }
 
         [HttpGet]
@@ -46,7 +49,7 @@ namespace CafeManagementSystem.WebApi.Controllers
             return Ok(await _orderService.UpdateOrderAsync(id, dto));
         }
         [HttpPatch("{id}/IsConfirmed")]
-        public async Task<IActionResult> AddjustIsConfirmed(int id, bool changeTo)
+        public async Task<IActionResult> AddjustIsConfirmed(int id, [FromBody] bool changeTo)
         {
             var result = await _orderService.AddjustIsConfirmed(id, changeTo);
 

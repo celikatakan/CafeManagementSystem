@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CafeManagementSystem.Web.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController : BaseController
     {
         private readonly ApiService _api;
 

@@ -1,508 +1,523 @@
 @model CafeManagementSystem.Business.Operations.Order.Dtos.CreateOrderDto
-<div class="bg-animation"></div>
+@if (ViewBag.UserIsAdmin == true)
+{
+    <div class="bg-animation"></div>
 
-<div class="main-content">
-    <div class="container">
-        <!-- Page Header -->
-        <div class="page-header">
-            <div class="header-content">
-                <h1 class="page-title">
-                    <i class="fas fa-plus-circle"></i>
-                    Yeni Sipariş Oluştur
-                </h1>
-                <p class="page-subtitle">
-                    Yeni bir sipariş kaydı oluşturun ve detaylarını girin
-                </p>
-            </div>
-            <div class="header-actions">
-                <a href="@Url.Action("Index")" class="btn btn-outline">
-                    <i class="fas fa-arrow-left"></i>
-                    Geri Dön
-                </a>
-            </div>
-        </div>
-
-        <!-- Form Card -->
-        <div class="form-card">
-            <div class="form-header">
-                <h2>Sipariş Bilgileri</h2>
-                <p>Lütfen sipariş detaylarını eksiksiz doldurunuz</p>
+    <div class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="header-content">
+                    <h1 class="page-title">
+                        <i class="fas fa-plus-circle"></i>
+                        Yeni Sipariş Oluştur
+                    </h1>
+                    <p class="page-subtitle">
+                        Yeni bir sipariş kaydı oluşturun ve detaylarını girin
+                    </p>
+                </div>
+                <div class="header-actions">
+                    <a href="@Url.Action("Index")" class="btn btn-outline">
+                        <i class="fas fa-arrow-left"></i>
+                        Geri Dön
+                    </a>
+                </div>
             </div>
 
-            <div class="form-body">
-                <form asp-action="Create" method="post">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label asp-for="ProductId">
-                                <i class="fas fa-coffee"></i>
-                                Ürün
-                            </label>
-                            <select asp-for="ProductId" class="form-control" asp-items="@(new SelectList(ViewBag.Products as List<CafeManagementSystem.Business.Operations.Product.Dtos.ProductDto>, "Id", "ProductName"))">
-                                <option value="">Ürün seçiniz</option>
-                            </select>
-                            <span asp-validation-for="ProductId" class="text-danger"></span>
-                        </div>
+            <!-- Form Card -->
+            <div class="form-card">
+                <div class="form-header">
+                    <h2>Sipariş Bilgileri</h2>
+                    <p>Lütfen sipariş detaylarını eksiksiz doldurunuz</p>
+                </div>
 
-                        <div class="form-group">
-                            <label asp-for="UserId">
-                                <i class="fas fa-user"></i>
-                                Kullanıcı
-                            </label>
-                            <select asp-for="UserId" class="form-control">
-                                <option value="">Kullanıcı seçiniz</option>
-                                @{
-                                    var users = (ViewBag.Users as List<CafeManagementSystem.Business.Operations.User.Dtos.UserInfoDto>) ?? new();
-                                    foreach (var user in users)
-                                    {
-                                        <option value="@user.Id">@user.FirstName @user.LastName</option>
+                <div class="form-body">
+                    <form asp-action="Create" method="post">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label asp-for="ProductId">
+                                    <i class="fas fa-coffee"></i>
+                                    Ürün
+                                </label>
+                                <select asp-for="ProductId" class="form-control" asp-items="@(new SelectList(ViewBag.Products as List<CafeManagementSystem.Business.Operations.Product.Dtos.ProductDto>, "Id", "ProductName"))">
+                                    <option value="">Ürün seçiniz</option>
+                                </select>
+                                <span asp-validation-for="ProductId" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="UserId">
+                                    <i class="fas fa-user"></i>
+                                    Kullanıcı
+                                </label>
+                                <select asp-for="UserId" class="form-control">
+                                    <option value="">Kullanıcı seçiniz</option>
+                                    @{
+                                        var users = (ViewBag.Users as List<CafeManagementSystem.Business.Operations.User.Dtos.UserInfoDto>) ?? new();
+                                        foreach (var user in users)
+                                        {
+                                            <option value="@user.Id">@user.FirstName @user.LastName</option>
+                                        }
                                     }
-                                }
-                            </select>
-                            <span asp-validation-for="UserId" class="text-danger"></span>
+                                </select>
+                                <span asp-validation-for="UserId" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="GuestCount">
+                                    <i class="fas fa-users"></i>
+                                    Misafir Sayısı
+                                </label>
+                                <input asp-for="GuestCount" class="form-control" type="number" min="1" max="20" />
+                                <span asp-validation-for="GuestCount" class="text-danger"></span>
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label asp-for="GuestCount">
-                                <i class="fas fa-users"></i>
-                                Misafir Sayısı
+                        <div class="form-group full-width">
+                            <label asp-for="SpecialRequest">
+                                <i class="fas fa-comment-alt"></i>
+                                Özel İstek
                             </label>
-                            <input asp-for="GuestCount" class="form-control" type="number" min="1" max="20" />
-                            <span asp-validation-for="GuestCount" class="text-danger"></span>
+                            <textarea asp-for="SpecialRequest" class="form-control" rows="4" placeholder="Özel isteklerinizi buraya yazabilirsiniz..."></textarea>
+                            <span asp-validation-for="SpecialRequest" class="text-danger"></span>
                         </div>
-                    </div>
 
-                    <div class="form-group full-width">
-                        <label asp-for="SpecialRequest">
-                            <i class="fas fa-comment-alt"></i>
-                            Özel İstek
-                        </label>
-                        <textarea asp-for="SpecialRequest" class="form-control" rows="4" placeholder="Özel isteklerinizi buraya yazabilirsiniz..."></textarea>
-                        <span asp-validation-for="SpecialRequest" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-actions">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-save"></i>
-                            Siparişi Kaydet
-                        </button>
-                        <a asp-action="Index" class="btn btn-secondary">
-                            <i class="fas fa-times"></i>
-                            İptal Et
-                        </a>
-                    </div>
-                </form>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i>
+                                Siparişi Kaydet
+                            </button>
+                            <a asp-action="Index" class="btn btn-secondary">
+                                <i class="fas fa-times"></i>
+                                İptal Et
+                            </a>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<style>
-    /* Page Header */
-    .page-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 2rem;
-        padding: 2rem 0;
-        border-bottom: 1px solid var(--border-color);
-    }
-
-    .header-content {
-        flex: 1;
-    }
-
-    .page-title {
-        font-size: 2.5rem;
-        font-weight: 700;
-        background: var(--gradient-primary);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        margin-bottom: 0.5rem;
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-    }
-
-    .page-subtitle {
-        color: var(--text-muted);
-        font-size: 1.1rem;
-        margin: 0;
-    }
-
-    .header-actions {
-        display: flex;
-        gap: 1rem;
-    }
-
-    /* Form Card */
-    .form-card {
-        background: rgba(255, 255, 255, 0.9);
-        backdrop-filter: blur(10px);
-        border-radius: 20px;
-        box-shadow: var(--shadow-light);
-        border: 1px solid var(--border-color);
-        overflow: hidden;
-        transition: all 0.3s ease;
-        animation: fadeInUp 0.6s ease forwards;
-    }
-
-    .form-card:hover {
-        box-shadow: var(--shadow-medium);
-    }
-
-    .form-header {
-        background: var(--gradient-primary);
-        color: white;
-        padding: 2rem;
-        text-align: center;
-    }
-
-    .form-header h2 {
-        font-size: 1.8rem;
-        font-weight: 600;
-        margin: 0 0 0.5rem 0;
-    }
-
-    .form-header p {
-        margin: 0;
-        opacity: 0.9;
-        font-size: 1rem;
-    }
-
-    .form-body {
-        padding: 2rem;
-    }
-
-    /* Form Grid */
-    .form-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 1.5rem;
-    }
-
-    .form-group {
-        position: relative;
-    }
-
-    .form-group.full-width {
-        grid-column: 1 / -1;
-    }
-
-    .form-group label {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        margin-bottom: 0.75rem;
-        font-weight: 600;
-        color: var(--text-primary);
-        font-size: 0.95rem;
-    }
-
-    .form-group label i {
-        color: var(--primary-color);
-        font-size: 1rem;
-    }
-
-    .form-control {
-        width: 100%;
-        padding: 1rem;
-        border: 2px solid var(--border-color);
-        border-radius: 12px;
-        font-size: 1rem;
-        transition: all 0.3s ease;
-        background: white;
-        position: relative;
-    }
-
-    .form-control:focus {
-        outline: none;
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
-        transform: translateY(-1px);
-    }
-
-    .form-control:hover {
-        border-color: var(--primary-color);
-    }
-
-    /* Select Styling */
-    select.form-control {
-        cursor: pointer;
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-        background-position: right 0.75rem center;
-        background-repeat: no-repeat;
-        background-size: 1.5em 1.5em;
-        padding-right: 2.5rem;
-        appearance: none;
-    }
-
-    /* Textarea Styling */
-    textarea.form-control {
-        resize: vertical;
-        min-height: 120px;
-        font-family: inherit;
-    }
-
-    /* Input Number Styling */
-    input[type="number"].form-control {
-        -moz-appearance: textfield;
-    }
-
-    input[type="number"].form-control::-webkit-outer-spin-button,
-    input[type="number"].form-control::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-
-    /* Validation Error */
-    .text-danger {
-        color: #dc3545;
-        font-size: 0.875rem;
-        margin-top: 0.5rem;
-        display: block;
-        font-weight: 500;
-    }
-
-    .form-control.input-validation-error {
-        border-color: #dc3545;
-        box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
-    }
-
-    /* Buttons */
-    .btn {
-        padding: 0.75rem 1.5rem;
-        border-radius: 12px;
-        font-weight: 500;
-        text-decoration: none;
-        border: none;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        font-size: 0.9rem;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .btn::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-        transition: left 0.5s;
-    }
-
-    .btn:hover::before {
-        left: 100%;
-    }
-
-    .btn-primary {
-        background: var(--gradient-primary);
-        color: white;
-        box-shadow: var(--shadow-light);
-    }
-
-    .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-medium);
-    }
-
-    .btn-secondary {
-        background: linear-gradient(135deg, #6b7280, #4b5563);
-        color: white;
-        box-shadow: var(--shadow-light);
-    }
-
-    .btn-secondary:hover {
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-medium);
-    }
-
-    .btn-outline {
-        background: transparent;
-        color: var(--text-secondary);
-        border: 2px solid var(--border-color);
-    }
-
-    .btn-outline:hover {
-        background: var(--gradient-primary);
-        color: white;
-        border-color: transparent;
-        transform: translateY(-2px);
-    }
-
-    /* Form Actions */
-    .form-actions {
-        display: flex;
-        gap: 1rem;
-        justify-content: center;
-        margin-top: 2rem;
-        padding-top: 2rem;
-        border-top: 1px solid var(--border-color);
-    }
-
-    /* Animation */
-    @@keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    /* Responsive Design */
-    @@media (max-width: 768px) {
+    <style>
+        /* Page Header */
         .page-header {
-            flex-direction: column;
-            align-items: stretch;
-            gap: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .header-actions {
-            justify-content: center;
+        .header-content {
+            flex: 1;
         }
 
         .page-title {
-            font-size: 2rem;
-            text-align: center;
-        }
-
-        .form-grid {
-            grid-template-columns: 1fr;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
             gap: 1rem;
         }
 
-        .form-body {
-            padding: 1.5rem;
+        .page-subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin: 0;
         }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Form Card */
+        .form-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: var(--shadow-light);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+            .form-card:hover {
+                box-shadow: var(--shadow-medium);
+            }
 
         .form-header {
-            padding: 1.5rem;
+            background: var(--gradient-primary);
+            color: white;
+            padding: 2rem;
+            text-align: center;
         }
 
-        .form-actions {
-            flex-direction: column;
-            align-items: stretch;
+            .form-header h2 {
+                font-size: 1.8rem;
+                font-weight: 600;
+                margin: 0 0 0.5rem 0;
+            }
+
+            .form-header p {
+                margin: 0;
+                opacity: 0.9;
+                font-size: 1rem;
+            }
+
+        .form-body {
+            padding: 2rem;
         }
 
+        /* Form Grid */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+            .form-group.full-width {
+                grid-column: 1 / -1;
+            }
+
+            .form-group label {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                margin-bottom: 0.75rem;
+                font-weight: 600;
+                color: var(--text-primary);
+                font-size: 0.95rem;
+            }
+
+                .form-group label i {
+                    color: var(--primary-color);
+                    font-size: 1rem;
+                }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+            position: relative;
+        }
+
+            .form-control:focus {
+                outline: none;
+                border-color: var(--primary-color);
+                box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+                transform: translateY(-1px);
+            }
+
+            .form-control:hover {
+                border-color: var(--primary-color);
+            }
+
+        /* Select Styling */
+        select.form-control {
+            cursor: pointer;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.75rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+            appearance: none;
+        }
+
+        /* Textarea Styling */
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+            font-family: inherit;
+        }
+
+        /* Input Number Styling */
+        input[type="number"].form-control {
+            -moz-appearance: textfield;
+        }
+
+            input[type="number"].form-control::-webkit-outer-spin-button,
+            input[type="number"].form-control::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+
+        /* Validation Error */
+        .text-danger {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            display: block;
+            font-weight: 500;
+        }
+
+        .form-control.input-validation-error {
+            border-color: #dc3545;
+            box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+        }
+
+        /* Buttons */
         .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 500;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .btn::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+                transition: left 0.5s;
+            }
+
+            .btn:hover::before {
+                left: 100%;
+            }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: var(--shadow-light);
+        }
+
+            .btn-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-medium);
+            }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #6b7280, #4b5563);
+            color: white;
+            box-shadow: var(--shadow-light);
+        }
+
+            .btn-secondary:hover {
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-medium);
+            }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 2px solid var(--border-color);
+        }
+
+            .btn-outline:hover {
+                background: var(--gradient-primary);
+                color: white;
+                border-color: transparent;
+                transform: translateY(-2px);
+            }
+
+        /* Form Actions */
+        .form-actions {
+            display: flex;
+            gap: 1rem;
             justify-content: center;
-        }
-    }
-
-    /* Focus States for Accessibility */
-    .btn:focus,
-    .form-control:focus {
-        outline: 2px solid var(--primary-color);
-        outline-offset: 2px;
-    }
-
-    /* Hover Effects */
-    .form-group:hover label i {
-        transform: scale(1.1);
-        transition: transform 0.3s ease;
-    }
-
-    /* Custom CSS Variables (Add these to your main CSS file) */
-    :root {
-        --primary-color: #8b4513;
-        --gradient-primary: linear-gradient(135deg, #8b4513, #a0522d);
-        --gradient-secondary: linear-gradient(135deg, #f4f4f4, #e8e8e8);
-        --text-primary: #2d3748;
-        --text-secondary: #4a5568;
-        --text-muted: #718096;
-        --border-color: #e2e8f0;
-        --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.07);
-        --shadow-medium: 0 10px 15px rgba(0, 0, 0, 0.1);
-        --shadow-heavy: 0 20px 25px rgba(0, 0, 0, 0.15);
-    }
-</style>
-
-<script>// Form validation and enhancement
-    document.addEventListener('DOMContentLoaded', function () {
-        const form = document.querySelector('form');
-        const inputs = form.querySelectorAll('.form-control');
-
-        // Add floating label effect
-        inputs.forEach(input => {
-            input.addEventListener('focus', function () {
-                this.parentElement.classList.add('focused');
-            });
-
-            input.addEventListener('blur', function () {
-                if (!this.value) {
-                    this.parentElement.classList.remove('focused');
-                }
-            });
-
-            // Check if input has value on page load
-            if (input.value) {
-                input.parentElement.classList.add('focused');
-            }
-        });
-
-        // Form submission with loading state
-        form.addEventListener('submit', function (e) {
-            const submitBtn = form.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Kaydediliyor...';
-            submitBtn.disabled = true;
-
-            // Re-enable button after 5 seconds as fallback
-            setTimeout(() => {
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-            }, 5000);
-        });
-
-        // Guest count validation
-        const guestCountInput = document.querySelector('input[name="GuestCount"]');
-        if (guestCountInput) {
-            guestCountInput.addEventListener('input', function () {
-                const value = parseInt(this.value);
-                if (value < 1) {
-                    this.value = 1;
-                } else if (value > 20) {
-                    this.value = 20;
-                }
-            });
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
         }
 
-        // Special request character counter
-        const specialRequestTextarea = document.querySelector('textarea[name="SpecialRequest"]');
-        if (specialRequestTextarea) {
-            const maxLength = 500;
-            const counterDiv = document.createElement('div');
-            counterDiv.className = 'character-counter';
-            counterDiv.style.cssText = 'text-align: right; margin-top: 0.5rem; color: var(--text-muted); font-size: 0.8rem;';
-
-            specialRequestTextarea.parentElement.appendChild(counterDiv);
-
-            function updateCounter() {
-                const remaining = maxLength - specialRequestTextarea.value.length;
-                counterDiv.textContent = `${remaining} karakter kaldı`;
-
-                if (remaining < 50) {
-                    counterDiv.style.color = '#dc3545';
-                } else if (remaining < 100) {
-                    counterDiv.style.color = '#f59e0b';
-                } else {
-                    counterDiv.style.color = 'var(--text-muted)';
-                }
+        /* Animation */
+        @@keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
             }
 
-            specialRequestTextarea.addEventListener('input', updateCounter);
-            specialRequestTextarea.setAttribute('maxlength', maxLength);
-            updateCounter();
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-    });</script>
+
+        /* Responsive Design */
+        @@media (max-width: 768px) {
+            .page-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+
+            .header-actions {
+                justify-content: center;
+            }
+
+            .page-title {
+                font-size: 2rem;
+                text-align: center;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .form-body {
+                padding: 1.5rem;
+            }
+
+            .form-header {
+                padding: 1.5rem;
+            }
+
+            .form-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn {
+                justify-content: center;
+            }
+        }
+
+        /* Focus States for Accessibility */
+        .btn:focus,
+        .form-control:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        /* Hover Effects */
+        .form-group:hover label i {
+            transform: scale(1.1);
+            transition: transform 0.3s ease;
+        }
+
+        /* Custom CSS Variables (Add these to your main CSS file) */
+        :root {
+            --primary-color: #8b4513;
+            --gradient-primary: linear-gradient(135deg, #8b4513, #a0522d);
+            --gradient-secondary: linear-gradient(135deg, #f4f4f4, #e8e8e8);
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --border-color: #e2e8f0;
+            --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-medium: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --shadow-heavy: 0 20px 25px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+
+    <script>// Form validation and enhancement
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.querySelector('form');
+            const inputs = form.querySelectorAll('.form-control');
+
+            // Add floating label effect
+            inputs.forEach(input => {
+                input.addEventListener('focus', function () {
+                    this.parentElement.classList.add('focused');
+                });
+
+                input.addEventListener('blur', function () {
+                    if (!this.value) {
+                        this.parentElement.classList.remove('focused');
+                    }
+                });
+
+                // Check if input has value on page load
+                if (input.value) {
+                    input.parentElement.classList.add('focused');
+                }
+            });
+
+            // Form submission with loading state
+            form.addEventListener('submit', function (e) {
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Kaydediliyor...';
+                submitBtn.disabled = true;
+
+                // Re-enable button after 5 seconds as fallback
+                setTimeout(() => {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }, 5000);
+            });
+
+            // Guest count validation
+            const guestCountInput = document.querySelector('input[name="GuestCount"]');
+            if (guestCountInput) {
+                guestCountInput.addEventListener('input', function () {
+                    const value = parseInt(this.value);
+                    if (value < 1) {
+                        this.value = 1;
+                    } else if (value > 20) {
+                        this.value = 20;
+                    }
+                });
+            }
+
+            // Special request character counter
+            const specialRequestTextarea = document.querySelector('textarea[name="SpecialRequest"]');
+            if (specialRequestTextarea) {
+                const maxLength = 500;
+                const counterDiv = document.createElement('div');
+                counterDiv.className = 'character-counter';
+                counterDiv.style.cssText = 'text-align: right; margin-top: 0.5rem; color: var(--text-muted); font-size: 0.8rem;';
+
+                specialRequestTextarea.parentElement.appendChild(counterDiv);
+
+                function updateCounter() {
+                    const remaining = maxLength - specialRequestTextarea.value.length;
+                    counterDiv.textContent = `${remaining} karakter kaldı`;
+
+                    if (remaining < 50) {
+                        counterDiv.style.color = '#dc3545';
+                    } else if (remaining < 100) {
+                        counterDiv.style.color = '#f59e0b';
+                    } else {
+                        counterDiv.style.color = 'var(--text-muted)';
+                    }
+                }
+
+                specialRequestTextarea.addEventListener('input', updateCounter);
+                specialRequestTextarea.setAttribute('maxlength', maxLength);
+                updateCounter();
+            }
+        });</script>
+}
+else
+{
+    <div style="text-align: center; padding: 5rem;">
+        <h1 style="font-size: 5rem; color: #e74c3c;">404</h1>
+        <h2 style="color: #555;">Yetkisiz Erişim</h2>
+        <p>Bu sayfaya erişim yetkiniz bulunmamaktadır.</p>
+        <a href="/" class="btn btn-primary" style="margin-top: 2rem;">
+            Ana Sayfaya Dön
+        </a>
+    </div>
+}

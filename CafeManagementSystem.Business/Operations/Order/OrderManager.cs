@@ -60,6 +60,7 @@ namespace CafeManagementSystem.Business.Operations.Order
             // Refresh the order with includes
             var fullOrder = await _orderRepository.GetAll(o => o.Id == order.Id)
                 .Include(o => o.Product)
+                    .ThenInclude(p => p.Cafe)
                 .Include(o => o.User)
                 .FirstOrDefaultAsync();
 
@@ -79,14 +80,17 @@ namespace CafeManagementSystem.Business.Operations.Order
         CreatedDate: fullOrder.CreatedDate,
         GuestCount: fullOrder.GuestCount,
         IsConfirmed: fullOrder.IsConfirmed,
-        SpecialRequest: fullOrder.SpecialRequest
+        SpecialRequest: fullOrder.SpecialRequest,
+        CafeId: fullOrder.Product?.CafeId ?? 0,
+        CafeName: fullOrder.Product?.Cafe?.Name ?? "Kafe adı yok"
     );
         }
 
         public async Task<OrderDto> UpdateOrderAsync(int id, UpdateOrderDto dto)
         {
             var order = await _orderRepository.GetAll(o => o.Id == id)
-                .Include(o => o.Product) // Eager loading ekleyin
+                .Include(o => o.Product)
+                    .ThenInclude(p => p.Cafe)
                 .Include(o => o.User)
                 .FirstOrDefaultAsync();
 
@@ -94,8 +98,10 @@ namespace CafeManagementSystem.Business.Operations.Order
                 throw new ArgumentException("Sipariş bulunamadı");
 
             // Güncelleme işlemleri
-            if (dto.IsConfirmed.HasValue)
-                order.IsConfirmed = dto.IsConfirmed.Value;
+            order.ProductId = dto.ProductId;
+            order.GuestCount = dto.GuestCount;
+            order.IsConfirmed = dto.IsConfirmed;
+            order.SpecialRequest = dto.SpecialRequest;
 
             // ... diğer güncellemeler
 
@@ -104,11 +110,13 @@ namespace CafeManagementSystem.Business.Operations.Order
             return MapToDto(
                 order,
                 order.Product?.ProductName ?? "Ürün bilgisi yok",
-                order.User != null ? $"{order.User.FirstName} {order.User.LastName}" : "Kullanıcı bilgisi yok"
+                order.User != null ? $"{order.User.FirstName} {order.User.LastName}" : "Kullanıcı bilgisi yok",
+                order.Product?.CafeId ?? 0,
+                order.Product?.Cafe?.Name ?? "Kafe adı yok"
             );
         }
 
-        private static OrderDto MapToDto(OrderEntity order, string productName, string userFullName) =>
+        private static OrderDto MapToDto(OrderEntity order, string productName, string userFullName, int cafeId, string cafeName) =>
             new(
                 order.Id,
                 order.ProductId,
@@ -118,15 +126,18 @@ namespace CafeManagementSystem.Business.Operations.Order
                 order.CreatedDate,
                 order.GuestCount,
                 order.IsConfirmed,
-                order.SpecialRequest
+                order.SpecialRequest,
+                cafeId,
+                cafeName
             );
 
         public async Task<OrderDto> GetOrderByIdAsync(int id)
         {
             var order = await _orderRepository
         .GetAll(o => o.Id == id)
-        .Include(o => o.Product) // Product bilgisini joinle
-        .Include(o => o.User)    // User bilgisini joinle
+        .Include(o => o.Product)
+            .ThenInclude(p => p.Cafe)
+        .Include(o => o.User)
         .Select(o => new OrderDto(
             o.Id,
             o.ProductId,
@@ -136,7 +147,9 @@ namespace CafeManagementSystem.Business.Operations.Order
             o.CreatedDate,
             o.GuestCount,
             o.IsConfirmed,
-            o.SpecialRequest
+            o.SpecialRequest,
+            o.Product.CafeId,
+            o.Product.Cafe.Name
         ))
         .FirstOrDefaultAsync();
 
@@ -148,6 +161,7 @@ namespace CafeManagementSystem.Business.Operations.Order
             return await _orderRepository
          .GetAll(o => o.UserId == userId)
          .Include(o => o.Product)
+             .ThenInclude(p => p.Cafe)
          .Include(o => o.User)
          .Select(o => new OrderDto(
              o.Id,
@@ -158,7 +172,9 @@ namespace CafeManagementSystem.Business.Operations.Order
              o.CreatedDate,
              o.GuestCount,
              o.IsConfirmed,
-             o.SpecialRequest
+             o.SpecialRequest,
+             o.Product.CafeId,
+             o.Product.Cafe.Name
          ))
          .ToListAsync();
         }
@@ -168,6 +184,7 @@ namespace CafeManagementSystem.Business.Operations.Order
             return await _orderRepository
                 .GetAll()
                 .Include(o => o.Product)
+                    .ThenInclude(p => p.Cafe)
                 .Include(o => o.User)
                 .Select(o => new OrderDto(
                     o.Id,
@@ -178,7 +195,9 @@ namespace CafeManagementSystem.Business.Operations.Order
                     o.CreatedDate,
                     o.GuestCount,
                     o.IsConfirmed,
-                    o.SpecialRequest
+                    o.SpecialRequest,
+                    o.Product.CafeId,
+                    o.Product.Cafe.Name
                 ))
                 .ToListAsync();
         }
@@ -202,7 +221,7 @@ namespace CafeManagementSystem.Business.Operations.Order
                 return new ServiceMessage
                 {
                     IsSucceed = false,
-                    Message = "Kafe bulunamadı."
+                    Message = "Sipariş bulunamadı."
                 };
             }
             order.IsConfirmed = changeTo;

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CafeManagementSystem.Business.Operations.Order.Dtos;
 using CafeManagementSystem.Business.Operations.Product.Dtos;
 using CafeManagementSystem.Business.Operations.User.Dtos;
+using CafeManagementSystem.Web.Helpers;
 using CafeManagementSystem.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CafeManagementSystem.Web.Controllers
 {
-    public class OrderController : Controller
+    public class OrderController : BaseController
     {
         private readonly ApiService _api;
 
@@ -26,6 +27,7 @@ namespace CafeManagementSystem.Web.Controllers
             var orders = await _api.GetAsync<List<OrderDto>>("api/Orders");
             return View(orders);
         }
+  
         [HttpGet]
         public async Task<IActionResult> Create()
         {
@@ -64,8 +66,20 @@ namespace CafeManagementSystem.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var order = await _api.GetAsync<UpdateOrderDto>($"api/Orders/{id}");
-            return View(order);
+            var order = await _api.GetAsync<OrderDto>($"api/Orders/{id}");
+            var products = await _api.GetAsync<List<ProductDto>>("api/Products");
+            
+            var updateDto = new UpdateOrderDto
+            {
+                Id = order.Id,
+                ProductId = order.ProductId,
+                GuestCount = order.GuestCount,
+                IsConfirmed = order.IsConfirmed,
+                SpecialRequest = order.SpecialRequest
+            };
+            
+            ViewBag.Products = products;
+            return View(updateDto);
         }
         [HttpPost]
         public async Task<IActionResult> Edit(UpdateOrderDto model)
@@ -88,8 +102,14 @@ namespace CafeManagementSystem.Web.Controllers
         [HttpPatch]
         public async Task<IActionResult> Confirm(int id)
         {
-            await _api.PatchAsync($"api/Orders/{id}/confirm");
+            await _api.PatchAsync($"api/Orders/{id}/IsConfirmed", true);
             return NoContent();
+        }
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var order = await _api.GetAsync<OrderDto>($"api/Orders/{id}");
+            return View(order);
         }
         [HttpGet]
         public async Task<IActionResult> Delete(int id)

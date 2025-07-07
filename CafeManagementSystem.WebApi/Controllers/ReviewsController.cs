@@ -10,7 +10,6 @@ namespace CafeManagementSystem.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class ReviewsController : Controller
     {
         private readonly IReviewService _reviewService;
@@ -32,7 +31,6 @@ namespace CafeManagementSystem.WebApi.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> AddReview([FromBody] CreateReviewDto model)
         {
             if (!ModelState.IsValid)

@@ -1,126 +1,455 @@
-<!-- CafeManagementSystem.Business.Operations.Order.Dtos.UpdateOrderDto
-<div class="bg-animation"></div>
+@model CafeManagementSystem.Business.Operations.Order.Dtos.UpdateOrderDto
+@if (ViewBag.UserIsAdmin == true)
+{
+    <div class="bg-animation"></div>
 
-<div class="main-content">
-    <div class="container">-->
-        <!-- Page Header -->
-        <!--<div class="page-header">
-            <div class="header-content">
-                <h1 class="page-title">
-                    <i class="fas fa-edit"></i>
-                    Sipariş Düzenle
-                </h1>
-                <p class="page-subtitle">
-                    Sipariş bilgilerini güncelleyin
-                </p>
+    <div class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="header-content">
+                    <h1 class="page-title">
+                        <i class="fas fa-edit"></i>
+                        Sipariş Düzenle
+                    </h1>
+                    <p class="page-subtitle">
+                        Sipariş #@Model.Id bilgilerini güncelleyin
+                    </p>
+                </div>
+                <div class="header-actions">
+                    <a href="@Url.Action("Index")" class="btn btn-outline">
+                        <i class="fas fa-arrow-left"></i>
+                        Geri Dön
+                    </a>
+                </div>
             </div>
-            <div class="header-actions">
-                <a href="@Url.Action("Index")" class="btn btn-outline">
-                    <i class="fas fa-arrow-left"></i>
-                    Geri Dön
-                </a>
-            </div>
-        </div>-->
 
-        <!-- Form Section -->
-        <!--<div class="form-section">
-            <div class="form-card">
-                <form asp-action="Edit" method="post" class="order-form">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input asp-for="Id" type="hidden" />
+            <!-- Form Section -->
+            <div class="form-section">
+                <div class="form-card">
+                    <form asp-action="Edit" method="post" class="order-form">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input asp-for="Id" type="hidden" />
 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-coffee"></i>
-                                Ürün
-                            </label>
-                            <input type="text" class="form-control" value="@Model.ProductName" readonly />
-                            <small class="form-text text-muted">Ürün değiştirilemez</small>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label asp-for="ProductId" class="form-label">
+                                    <i class="fas fa-coffee"></i>
+                                    Ürün
+                                </label>
+                                <div class="select-wrapper">
+                                    <select asp-for="ProductId" class="form-control custom-select">
+                                        <option value="">Ürün seçin...</option>
+                                        @foreach (var product in ViewBag.Products)
+                                        {
+                                            <option value="@product.Id">@product.ProductName - @product.Category</option>
+                                        }
+                                    </select>
+                                    <i class="fas fa-chevron-down select-arrow"></i>
+                                </div>
+                                <span asp-validation-for="ProductId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="GuestCount" class="form-label">
+                                    <i class="fas fa-users"></i>
+                                    Misafir Sayısı
+                                </label>
+                                <div class="number-wrapper">
+                                    <input asp-for="GuestCount" type="number" class="form-control custom-number" min="1" max="20" />
+                                    <div class="number-controls">
+                                        <button type="button" class="number-btn" onclick="changeNumber(-1)">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <button type="button" class="number-btn" onclick="changeNumber(1)">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <span asp-validation-for="GuestCount" class="text-danger"></span>
+                            </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-user"></i>
-                                Müşteri
+                            <label asp-for="IsConfirmed" class="form-label">
+                                <i class="fas fa-check-circle"></i>
+                                Sipariş Durumu
                             </label>
-                            <input type="text" class="form-control" value="@Model.UserFullName" readonly />
-                            <small class="form-text text-muted">Müşteri değiştirilemez</small>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-calendar-alt"></i>
-                                Başlangıç Tarihi
-                            </label>
-                            <input type="text" class="form-control" value="@Model.StartDate.ToString("dd MMM yyyy, HH:mm")" readonly />
-                            <small class="form-text text-muted">Başlangıç tarihi değiştirilemez</small>
+                            <div class="form-check">
+                                <input asp-for="IsConfirmed" type="checkbox" class="form-check-input" id="isConfirmed" />
+                                <label class="form-check-label" for="isConfirmed">
+                                    Siparişi onayla
+                                </label>
+                            </div>
+                            <span asp-validation-for="IsConfirmed" class="text-danger"></span>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-users"></i>
-                                Misafir Sayısı
+                            <label asp-for="SpecialRequest" class="form-label">
+                                <i class="fas fa-comment-alt"></i>
+                                Özel İstekler
                             </label>
-                            <input type="text" class="form-control" value="@Model.GuestCount kişi" readonly />
-                            <small class="form-text text-muted">Misafir sayısı değiştirilemez</small>
+                            <textarea asp-for="SpecialRequest" class="form-control" rows="4" placeholder="Özel isteklerinizi buraya yazın..."></textarea>
+                            <span asp-validation-for="SpecialRequest" class="text-danger"></span>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label class="form-label">
-                            <i class="fas fa-comment-alt"></i>
-                            Özel İstekler
-                        </label>
-                        <textarea class="form-control" rows="4" readonly>@Model.SpecialRequest</textarea>
-                        <small class="form-text text-muted">Özel istekler değiştirilemez</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label asp-for="IsConfirmed" class="form-label">
-                            <i class="fas fa-check-circle"></i>
-                            Sipariş Durumu
-                        </label>
-                        <div class="form-check">
-                            <input asp-for="IsConfirmed" type="checkbox" class="form-check-input" id="isConfirmed" />
-                            <label class="form-check-label" for="isConfirmed">
-                                Siparişi onayla
-                            </label>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i>
+                                Değişiklikleri Kaydet
+                            </button>
+                            <a href="@Url.Action("Index")" class="btn btn-outline">
+                                <i class="fas fa-times"></i>
+                                İptal
+                            </a>
                         </div>
-                        <span asp-validation-for="IsConfirmed" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-actions">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-save"></i>
-                            Değişiklikleri Kaydet
-                        </button>
-                        <a href="@Url.Action("Index")" class="btn btn-outline">
-                            <i class="fas fa-times"></i>
-                            İptal
-                        </a>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-@section Scripts {
-    <script>
-        $(document).ready(function () {
-            // Form submit işlemi
-            $('.order-form').on('submit', function (e) {
-                var isConfirmed = $('#isConfirmed').is(':checked');
-                if (!isConfirmed) {
-                    if (!confirm('Siparişi onaylamadan kaydetmek istediğinizden emin misiniz?')) {
-                        e.preventDefault();
-                        return false;
-                    }
+    <style>
+        /* Page Header */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-content {
+            flex: 1;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .page-subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 500;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: var(--shadow-light);
+        }
+
+            .btn-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-medium);
+            }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 2px solid var(--border-color);
+        }
+
+            .btn-outline:hover {
+                background: var(--gradient-primary);
+                color: white;
+                border-color: transparent;
+                transform: translateY(-2px);
+            }
+
+        /* Form Section */
+        .form-section {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            border: 1px solid var(--border-color);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+            .form-control:focus {
+                outline: none;
+                border-color: var(--primary-color);
+                box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+            }
+
+        /* Custom Select Styling */
+        .select-wrapper {
+            position: relative;
+        }
+
+        .custom-select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            padding-right: 2.5rem;
+            background: white;
+            cursor: pointer;
+        }
+
+        .select-arrow {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .custom-select:focus + .select-arrow {
+            color: var(--primary-color);
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        /* Custom Number Input Styling */
+        .number-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .custom-number {
+            padding-right: 4rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .number-controls {
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border-left: 1px solid var(--border-color);
+        }
+
+        .number-btn {
+            width: 2rem;
+            height: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.8);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+            .number-btn:first-child {
+                border-bottom: 1px solid var(--border-color);
+                border-radius: 0 8px 0 0;
+            }
+
+            .number-btn:last-child {
+                border-radius: 0 0 8px 0;
+            }
+
+            .number-btn:hover {
+                background: var(--gradient-primary);
+                color: white;
+            }
+
+            .number-btn:active {
+                transform: scale(0.95);
+            }
+
+        .form-check {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .form-check-input {
+            width: 1.2rem;
+            height: 1.2rem;
+            accent-color: var(--primary-color);
+        }
+
+        .form-check-label {
+            font-weight: 500;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        .text-danger {
+            color: #dc2626;
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+            display: block;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+            .form-actions .btn {
+                flex: 1;
+                min-width: 120px;
+                justify-content: center;
+                padding: 1rem 1.5rem;
+                font-size: 1rem;
+            }
+
+        /* Responsive Design */
+        @@media (max-width: 768px) {
+            .page-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+
+            .header-actions {
+                justify-content: center;
+            }
+
+            .page-title {
+                font-size: 2rem;
+                text-align: center;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+                .form-actions .btn {
+                    flex: none;
                 }
+        }
+
+        /* Animation */
+        @@keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+
+    @section Scripts {
+        <script>$(document).ready(function () {
+                // Form submit işlemi
+                $('.order-form').on('submit', function (e) {
+                    var isConfirmed = $('#isConfirmed').is(':checked');
+                    if (!isConfirmed) {
+                        if (!confirm('Siparişi onaylamadan kaydetmek istediğinizden emin misiniz?')) {
+                            e.preventDefault();
+                            return false;
+                        }
+                    }
+                });
             });
-        });
-    </script>
-}--> 
+
+            // Misafir sayısı değiştirme fonksiyonu
+            function changeNumber(delta) {
+                var input = document.querySelector('.custom-number');
+                var currentValue = parseInt(input.value) || 1;
+                var newValue = currentValue + delta;
+
+                // Min ve max değerleri kontrol et
+                if (newValue >= 1 && newValue <= 20) {
+                    input.value = newValue;
+                    input.dispatchEvent(new Event('input', { bubbles: true }));
+                }
+            }</script>
+    }
+}
+else
+{
+    <div style="text-align: center; padding: 5rem;">
+        <h1 style="font-size: 5rem; color: #e74c3c;">404</h1>
+        <h2 style="color: #555;">Yetkisiz Erişim</h2>
+        <p>Bu sayfaya erişim yetkiniz bulunmamaktadır.</p>
+        <a href="/" class="btn btn-primary" style="margin-top: 2rem;">
+            Ana Sayfaya Dön
+        </a>
+    </div>
+}

@@ -1,26 +1,35 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using CafeManagementSystem.Web.Models;
+using CafeManagementSystem.Web.Controllers;
+using CafeManagementSystem.Business.Operations.Product.Dtos;
+using CafeManagementSystem.Web.Services;
+using CafeManagementSystem.Business.Operations.Cafe.Dtos;
 
 namespace CafeManagementSystem.Web.Controllers;
 
-public class HomeController : Controller
+public class HomeController : BaseController
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly ApiService _api;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController>
+        logger, ApiService api)
     {
         _logger = logger;
+        _api = api;
     }
 
-    public IActionResult Index()
-    {
+    public async Task<IActionResult> Index()
+    {    
         return View();
     }
 
-    public IActionResult Privacy()
+    public async Task<IActionResult> CafeProducts(int id)
     {
-        return View();
+        var products = await _api.GetAsync<List<ProductDto>>($"api/Orders/Index");
+        ViewBag.CafeId = id;
+        return View("CafeProducts", products);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

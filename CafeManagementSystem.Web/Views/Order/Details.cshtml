@@ -1,0 +1,461 @@
+﻿<!-- CafeManagementSystem.Web/Views/Order/Details.cshtml -->
+@model CafeManagementSystem.Business.Operations.Order.Dtos.OrderDto
+@if (ViewBag.UserIsAdmin == true)
+{
+    <div class="bg-animation"></div>
+
+    <div class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="header-content">
+                    <h1 class="page-title">
+                        <i class="fas fa-eye"></i>
+                        Sipariş Detayları
+                    </h1>
+                    <p class="page-subtitle">
+                        Sipariş #@Model.Id detaylarını görüntüleyin
+                    </p>
+                </div>
+                <div class="header-actions">
+                    <a href="@Url.Action("Index")" class="btn btn-outline">
+                        <i class="fas fa-arrow-left"></i>
+                        Geri Dön
+                    </a>
+                    <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-primary">
+                        <i class="fas fa-edit"></i>
+                        Düzenle
+                    </a>
+                </div>
+            </div>
+
+            <!-- Order Details Card -->
+            <div class="order-details-container">
+                <div class="order-card">
+                    <div class="order-header">
+                        <div class="order-info">
+                            <h3 class="order-title">@Model.ProductName</h3>
+                            <div class="order-id">#@Model.Id</div>
+                        </div>
+                        <div class="order-status @(Model.IsConfirmed ? "confirmed" : "pending")">
+                            <i class="fas fa-@(Model.IsConfirmed ? "check-circle" : "clock")"></i>
+                            <span>@(Model.IsConfirmed ? "Onaylandı" : "Bekliyor")</span>
+                        </div>
+                    </div>
+
+                    <div class="order-details">
+                        <div class="detail-item">
+                            <i class="fas fa-store"></i>
+                            <div class="detail-content">
+                                <span class="detail-label">Kafe</span>
+                                <span class="detail-value">@Model.CafeName</span>
+                            </div>
+                        </div>
+
+                        <div class="detail-item">
+                            <i class="fas fa-user"></i>
+                            <div class="detail-content">
+                                <span class="detail-label">Müşteri</span>
+                                <span class="detail-value">@Model.UserFullName</span>
+                            </div>
+                        </div>
+
+                        <div class="detail-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <div class="detail-content">
+                                <span class="detail-label">Sipariş Tarihi</span>
+                                <span class="detail-value">@Model.CreatedDate.ToString("dd MMM yyyy, HH:mm")</span>
+                            </div>
+                        </div>
+
+                        <div class="detail-item">
+                            <i class="fas fa-users"></i>
+                            <div class="detail-content">
+                                <span class="detail-label">Misafir Sayısı</span>
+                                <span class="detail-value">@Model.GuestCount kişi</span>
+                            </div>
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(Model.SpecialRequest))
+                        {
+                            <div class="detail-item special-request">
+                                <i class="fas fa-comment-alt"></i>
+                                <div class="detail-content">
+                                    <span class="detail-label">Özel İstek</span>
+                                    <span class="detail-value">@Model.SpecialRequest</span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="order-actions">
+                        @if (!Model.IsConfirmed)
+                        {
+                            <button class="btn btn-success" onclick="confirmOrder(@Model.Id)">
+                                <i class="fas fa-check"></i>
+                                Onayla
+                            </button>
+                        }
+                        <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-primary">
+                            <i class="fas fa-edit"></i>
+                            Düzenle
+                        </a>
+                        <button class="btn btn-danger" onclick="deleteOrder(@Model.Id)">
+                            <i class="fas fa-trash"></i>
+                            Sil
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Page Header */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-content {
+            flex: 1;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .page-subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 500;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: var(--shadow-light);
+        }
+
+            .btn-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-medium);
+            }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 2px solid var(--border-color);
+        }
+
+            .btn-outline:hover {
+                background: var(--gradient-primary);
+                color: white;
+                border-color: transparent;
+                transform: translateY(-2px);
+            }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981, #065f46);
+            color: white;
+            box-shadow: var(--shadow-light);
+        }
+
+            .btn-success:hover {
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-medium);
+            }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            box-shadow: var(--shadow-light);
+        }
+
+            .btn-danger:hover {
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-medium);
+            }
+
+        /* Order Details Container */
+        .order-details-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Order Card */
+        .order-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+            .order-card:hover {
+                transform: translateY(-4px);
+                box-shadow: var(--shadow-heavy);
+            }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .order-info {
+            flex: 1;
+        }
+
+        .order-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0 0 0.5rem 0;
+        }
+
+        .order-id {
+            background: var(--gradient-secondary);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .order-status {
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+            .order-status.confirmed {
+                background: rgba(16, 185, 129, 0.1);
+                color: #065f46;
+                border: 1px solid rgba(16, 185, 129, 0.3);
+            }
+
+            .order-status.pending {
+                background: rgba(245, 158, 11, 0.1);
+                color: #92400e;
+                border: 1px solid rgba(245, 158, 11, 0.3);
+            }
+
+        .order-details {
+            margin-bottom: 2rem;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+            .detail-item:last-child {
+                margin-bottom: 0;
+            }
+
+            .detail-item i {
+                color: var(--primary-color);
+                font-size: 1.2rem;
+                margin-top: 0.2rem;
+                min-width: 20px;
+            }
+
+        .detail-content {
+            flex: 1;
+        }
+
+        .detail-label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .detail-value {
+            display: block;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .special-request {
+            background: rgba(139, 69, 19, 0.05);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+            .order-actions .btn {
+                flex: 1;
+                min-width: 120px;
+                justify-content: center;
+                padding: 1rem 1.5rem;
+                font-size: 1rem;
+            }
+
+        /* Responsive Design */
+        @@media (max-width: 768px) {
+            .page-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+
+            .header-actions {
+                justify-content: center;
+            }
+
+            .page-title {
+                font-size: 2rem;
+                text-align: center;
+            }
+
+            .order-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+
+            .order-status {
+                align-self: flex-start;
+            }
+
+            .order-actions {
+                flex-direction: column;
+            }
+
+                .order-actions .btn {
+                    flex: none;
+                }
+
+            .detail-item {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
+
+                .detail-item i {
+                    align-self: center;
+                }
+        }
+
+        /* Animation */
+        @@keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+
+    <script>function confirmOrder(orderId) {
+            if (confirm('Bu siparişi onaylamak istediğinize emin misiniz?')) {
+                fetch(`/Order/Confirm/${orderId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            location.reload();
+                        } else {
+                            response.text().then(text => {
+                                alert('Sipariş onaylanamadı: ' + text);
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Hata:', error);
+                        alert('Sipariş onaylanırken bir hata oluştu!');
+                    });
+            }
+        }
+
+        function deleteOrder(orderId) {
+            if (confirm('Bu siparişi silmek istediğinize emin misiniz? Bu işlem geri alınamaz.')) {
+                window.location.href = `/Order/Delete/${orderId}`;
+            }
+        }</script>
+}
+else
+{
+    <div style="text-align: center; padding: 5rem;">
+        <h1 style="font-size: 5rem; color: #e74c3c;">404</h1>
+        <h2 style="color: #555;">Yetkisiz Erişim</h2>
+        <p>Bu sayfaya erişim yetkiniz bulunmamaktadır.</p>
+        <a href="/" class="btn btn-primary" style="margin-top: 2rem;">
+            Ana Sayfaya Dön
+        </a>
+    </div>
+}
+

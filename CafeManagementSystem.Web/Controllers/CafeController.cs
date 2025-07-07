@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CafeManagementSystem.Web.Controllers
 {
-    public class CafeController : Controller
+    public class CafeController : BaseController
     {
         private readonly ApiService _api;
 

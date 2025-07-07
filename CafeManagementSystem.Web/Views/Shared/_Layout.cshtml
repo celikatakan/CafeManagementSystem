@@ -419,6 +419,23 @@
                 transform: rotate(360deg);
             }
         }
+
+        .welcome-bar {
+            width: 100%;
+            text-align: center;
+            background: var(--bg-secondary);
+            color: var(--primary-color);
+            font-size: 1.15rem;
+            font-weight: 500;
+            padding: 0.7rem 0;
+            border-bottom: 1px solid var(--border-color);
+            letter-spacing: 0.5px;
+        }
+        .logout-link:hover {
+            color: #E74C3C !important;
+            background: none !important;
+            transition: color 0.2s;
+        }
     </style>
 
 </head>
@@ -434,10 +451,49 @@
                         Cafe Yönetim Sistemi
                     </a>
 
-
-
                     <div class="navbar-nav d-none d-md-flex">
+                        @if (ViewBag.UserFullName != null)
+                        {
+                            @* Admin ise admin menüleri *@
+                            @if (ViewBag.UserIsAdmin == true)
+                            {
+                                <a class="nav-link" href="/Dashboard">
+                                    <i class="fas fa-chart-line"></i> Dashboard
+                                </a>
+                                <a class="nav-link" href="/Product/Index">
+                                    <i class="fas fa-chart-bar"></i> Ürünler
+                                </a>
+                                <a class="nav-link" href="/Cafe/Index">
+                                    <i class="fas fa-utensils"></i> Kafeler
+                                </a>
+                                <a class="nav-link" href="/Order/Index">
+                                    <i class="fas fa-receipt"></i> Siparişler
+                                </a>
+                            }
+                            @* Customer ise sadece Kafeler menüsü *@
+                            else if (ViewBag.UserIsCustomer == true)
+                            {
+                                <a class="nav-link" href="/Customer/Index">
+                                    <i class="fas fa-utensils"></i> Kafeler
+                                </a>
+                            }
+                            <a class="nav-link logout-link" href="/Account/Logout">Çıkış Yap</a>
+                        }
+                        else
+                        {
+                            <a class="nav-link" href="/Account/Login">Giriş Yap</a>
+                            <a class="nav-link" href="/Account/Register">Kayıt Ol</a>
+                        }
+                    </div>
 
+                    <!-- Mobile Menu -->
+                    <div id="mobileMenu" class="navbar-nav d-md-none" style="display: none;">
+                        <a class="nav-link active" href="#" onclick="setActiveLink(this)">
+                            <i class="fas fa-home"></i> Ana Sayfa
+                        </a>
+                        <a class="nav-link" href="/Dashboard" onclick="setActiveLink(this)">
+                            <i class="fas fa-chart-line"></i> Dashboard
+                        </a>
                         <a class="nav-link" href="/Product/Index" onclick="setActiveLink(this)">
                             <i class="fas fa-chart-bar"></i> Ürünler
                         </a>
@@ -454,32 +510,25 @@
                             <i class="fas fa-user-shield"></i> Gizlilik
                         </a>
                     </div>
-
-                    <!-- Mobile Menu -->
-                    <div id="mobileMenu" class="navbar-nav d-md-none" style="display: none;">
-                        <a class="nav-link active" href="#" onclick="setActiveLink(this)">
-                            <i class="fas fa-home"></i> Ana Sayfa
-                        </a>
-                        <a class="nav-link" href="#" onclick="setActiveLink(this)">
-                            <i class="fas fa-chart-bar"></i> Dashboard
-                        </a>
-                        <a class="nav-link" href="#" onclick="setActiveLink(this)">
-                            <i class="fas fa-utensils"></i> Menü
-                        </a>
-                        <a class="nav-link" href="#" onclick="setActiveLink(this)">
-                            <i class="fas fa-receipt"></i> Siparişler
-                        </a>
-                        <a class="nav-link" href="#" onclick="setActiveLink(this)">
-                            <i class="fas fa-users"></i> Müşteriler
-                        </a>
-                        <a class="nav-link" href="#" onclick="setActiveLink(this)">
-                            <i class="fas fa-user-shield"></i> Gizlilik
-                        </a>
-                    </div>
                 </div>
             </nav>
         </div>
     </header>
+
+    @if (ViewBag.UserFullName != null)
+    {
+        <div class="welcome-bar">
+            Hoşgeldiniz, <strong>@ViewBag.UserFullName</strong>
+            @if (ViewBag.UserIsAdmin == true)
+            {
+                <span style="color: #D2691E; margin-left: 10px;">(Admin)</span>
+            }
+            else if (ViewBag.UserIsCustomer == true)
+            {
+                <span style="color: #27AE60; margin-left: 10px;">(Müşteri)</span>
+            }
+        </div>
+    }
 
     @RenderBody()
     @RenderSection("Scripts", required: false)
