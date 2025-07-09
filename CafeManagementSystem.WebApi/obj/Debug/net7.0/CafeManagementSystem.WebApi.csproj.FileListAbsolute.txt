@@ -83,4 +83,5 @@
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/obj/Debug/net7.0/CafeManagementSystem.WebApi.pdb
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/obj/Debug/net7.0/CafeManagementSystem.WebApi.genruntimeconfig.cache
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/obj/Debug/net7.0/ref/CafeManagementSystem.WebApi.dll
-/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/obj/Debug/net7.0/CafeManagementSystem.WebApi.csproj.CopyComplete
+/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/obj/Debug/net7.0/CafeManagementSystem.WebApi.sourcelink.json
+/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/obj/Debug/net7.0/CafeMana.290A3964.Up2Date

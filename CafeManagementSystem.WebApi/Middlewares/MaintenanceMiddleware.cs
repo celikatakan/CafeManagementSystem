@@ -25,7 +25,14 @@ namespace CafeManagementSystem.WebApi.Middlewares
 
             if (maintenanceMode)
             {
-                await context.Response.WriteAsync("Şu anda hizmet verememekteyiz.");
+                context.Response.StatusCode = 503;
+                context.Response.ContentType = "application/json";
+                var result = System.Text.Json.JsonSerializer.Serialize(new {
+                    error = "Bakımdayız",
+                    message = "Şu an hizmet verememekteyiz."
+                });
+                await context.Response.WriteAsync(result);
+                return;
             }
             else
                 await _next(context);

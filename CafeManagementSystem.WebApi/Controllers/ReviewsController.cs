@@ -30,6 +30,15 @@ namespace CafeManagementSystem.WebApi.Controllers
             return Ok(result.Data);
         }
 
+        [HttpGet("user/{userId}")]
+        public async Task<IActionResult> GetReviewsByUser(int userId)
+        {
+            var result = await _reviewService.GetReviewsByUserIdAsync(userId);
+            if (!result.IsSucceed)
+                return BadRequest(result.Message);
+            return Ok(result.Data);
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddReview([FromBody] CreateReviewDto model)
         {
@@ -40,6 +49,5 @@ namespace CafeManagementSystem.WebApi.Controllers
             return result.IsSucceed ? Ok(result.Data) : BadRequest(result.Message);
         }
     }
-    
 }
 

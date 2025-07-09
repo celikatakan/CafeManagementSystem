@@ -18,12 +18,16 @@
     <None Remove="Views\Cafe\" />
     <None Remove="Views\Product\" />
     <None Remove="Views\Order\" />
+    <None Remove="Middleware\" />
+    <None Remove="Views\Maintenance\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
     <Folder Include="Views\Cafe\" />
     <Folder Include="Views\Product\" />
     <Folder Include="Views\Order\" />
+    <Folder Include="Middleware\" />
+    <Folder Include="Views\Maintenance\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />

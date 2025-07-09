@@ -28,6 +28,13 @@ namespace CafeManagementSystem.WebApi.Controllers
 
             return Ok();
         }
+        [HttpGet("maintenance")]
+        [AllowAnonymous]
+        public IActionResult GetMaintenanceStatus()
+        {
+            var status = _settingService.GetMaintenanceState();
+            return Ok(new { maintenance = status });
+        }
     }
 }
 

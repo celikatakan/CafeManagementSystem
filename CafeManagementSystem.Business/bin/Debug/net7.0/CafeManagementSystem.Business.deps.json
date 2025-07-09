@@ -573,7 +573,10 @@
           "Microsoft.EntityFrameworkCore.SqlServer": "7.0.19"
         },
         "runtime": {
-          "CafeManagementSystem.Data.dll": {}
+          "CafeManagementSystem.Data.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }

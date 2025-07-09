@@ -26,6 +26,7 @@
     <None Remove="Operations\Order\Dtos\" />
     <None Remove="Operations\Review\" />
     <None Remove="Operations\Review\Dtos\" />
+    <None Remove="Operations\Setting\Dtos\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DataProtection\" />
@@ -44,6 +45,7 @@
     <Folder Include="Operations\Order\Dtos\" />
     <Folder Include="Operations\Review\" />
     <Folder Include="Operations\Review\Dtos\" />
+    <Folder Include="Operations\Setting\Dtos\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.DataProtection.Abstractions" Version="7.0.19" />

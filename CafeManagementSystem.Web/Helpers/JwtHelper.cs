@@ -19,6 +19,18 @@ namespace CafeManagementSystem.Web.Helpers
 
             return (firstName, lastName, userType);
         }
+
+        public static string GetEmailFromToken(string token)
+        {
+            if (string.IsNullOrEmpty(token))
+                return null;
+
+            var handler = new JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadJwtToken(token);
+
+            return jwtToken.Claims.FirstOrDefault(c => c.Type == "Email")?.Value;
+        }
+
         public static int GetUserIdFromToken(string token)
         {
             if (string.IsNullOrEmpty(token))

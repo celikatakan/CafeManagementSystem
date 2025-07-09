@@ -1,7 +1,7 @@
 ﻿@model CafeManagementSystem.Business.Operations.Cafe.Dtos.CafeDto
 @using CafeManagementSystem.Business.Operations.Product.Dtos
 @using CafeManagementSystem.Business.Operations.Review.Dtos
-@using CafeManagementSystem.Data.Entities
+
 @{
     var products = ViewBag.Products as List<ProductDto>;
     var reviews = ViewBag.Reviews as List<ReviewDto>;
@@ -425,7 +425,7 @@
                             <span class="product-name">@product.ProductName</span>
                             <span class="product-price">@product.Price ₺</span>
                         </div>
-                        <button class="order-btn" onclick="orderProduct(@product.Id)">
+                        <button class="order-btn" onclick="orderProduct(@product.Id, event)">
                             <i class="fas fa-plus"></i>
                             Sipariş Ver
                         </button>
@@ -472,42 +472,98 @@
             </div>
         </div>
     </div>
+
+    <!-- Add Review Section (Only for logged-in users) -->
+    @{
+        var isCustomer = ViewBag.UserIsCustomer != null && (bool)ViewBag.UserIsCustomer;
+        var userId = ViewBag.UserId;
+    }
+    @if (isCustomer)
+    {
+        <div id="add-review-section" class="fade-in-up" style="margin-top:2.5rem;">
+            <h2 class="section-title">
+                <i class="fas fa-pen"></i>
+                Yorum Yap
+            </h2>
+            <form id="reviewForm" style="background:rgba(255,255,255,0.95);border-radius:16px;padding:1.5rem;box-shadow:var(--shadow-light);border:1px solid var(--border-color);">
+                <input type="hidden" name="CafeId" value="@Model.Id" />
+                <input type="hidden" name="UserId" value="@userId" />
+                <div style="margin-bottom:1rem;">
+                    <label for="rating" style="font-weight:600;">Puan:</label>
+                    <select id="rating" name="Rating" required style="margin-left:1rem;padding:0.3rem 0.7rem;border-radius:8px;">
+                        <option value="">Seçiniz</option>
+                        @for (int i = 5; i >= 1; i--)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                </div>
+                <div style="margin-bottom:1rem;">
+                    <label for="comment" style="font-weight:600;">Yorumunuz:</label>
+                    <textarea id="comment" name="Comment" rows="3" maxlength="500" required style="width:100%;border-radius:8px;padding:0.7rem;margin-top:0.5rem;"></textarea>
+                </div>
+                <button type="submit" class="order-btn" style="margin-top:0.5rem;">
+                    <i class="fas fa-paper-plane"></i> Gönder
+                </button>
+            </form>
+            <div id="reviewFormMsg" style="margin-top:1rem;"></div>
+        </div>
+    }
 </div>
 
 <script>// Order product function
-    function orderProduct(productId) {
+    async function orderProduct(productId, event) {
         const button = event.target.closest('.order-btn');
-
-        // Add loading state
         button.classList.add('loading');
         button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sipariş Veriliyor...';
 
-        // Simulate order process
-        setTimeout(() => {
-            // Reset button
-            button.classList.remove('loading');
-            button.innerHTML = '<i class="fas fa-plus"></i> Sipariş Ver';
+        // Kullanıcı ID'sini ViewBag'den veya bir hidden input'tan alabilirsin
+        const userId = document.querySelector('input[name="UserId"]')?.value;
 
-            // Show success message (you can replace this with actual order logic)
-            showNotification('Sipariş başarıyla verildi!', 'success');
-        }, 1500);
+        // Sipariş için gerekli veriler
+        const data = {
+            ProductId: productId,
+            UserId: parseInt(userId),
+            GuestCount: 1, // veya kullanıcıdan alınabilir
+            CreatedDate: new Date().toISOString(),
+            SpecialRequest: ""
+        };
+
+        try {
+            const res = await fetch('https://localhost:7265/api/Orders', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+                credentials: 'same-origin'
+            });
+            if (res.ok) {
+                showNotification('Sipariş başarıyla verildi!', 'success');
+            } else {
+                showNotification('Sipariş verilemedi!', 'danger');
+            }
+        } catch {
+            showNotification('Sunucuya bağlanılamadı.', 'danger');
+        }
+
+        button.classList.remove('loading');
+        button.innerHTML = '<i class="fas fa-plus"></i> Sipariş Ver';
     }
 
     // Simple notification function
     function showNotification(message, type = 'info') {
         const notification = document.createElement('div');
         notification.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 1rem 1.5rem;
-            border-radius: 12px;
-            color: white;
-            font-weight: 500;
-            z-index: 10000;
-            animation: slideIn 0.3s ease;
-            background: ${type === 'success' ? 'var(--success-color)' : 'var(--primary-color)'};
-        `;
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 1rem 1.5rem;
+        border-radius: 12px;
+        color: white;
+        font-weight: 500;
+        z-index: 10000;
+        animation: slideIn 0.3s ease;
+        background: ${type === 'success' ? 'var(--success-color)' : 'var(--primary-color)'};
+    `;
         notification.textContent = message;
 
         document.body.appendChild(notification);
@@ -548,13 +604,57 @@
     // Add CSS for animations
     const style = document.createElement('style');
     style.textContent = `
-        @@keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+    @@keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    @@keyframes slideOut {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+    }
+`;
+    document.head.appendChild(style);
+
+    // Review form submission
+    document.addEventListener('DOMContentLoaded', function () {
+        console.log("Review form script loaded!");
+
+        const reviewForm = document.getElementById('reviewForm');
+        if (reviewForm) {
+            reviewForm.addEventListener('submit', async function (e) {
+                e.preventDefault();
+                const form = e.target;
+                const data = {
+                    cafeId: parseInt(form.CafeId.value),
+                    userId: parseInt(form.UserId.value),
+                    rating: parseInt(form.Rating.value),
+                    comment: form.Comment.value
+                };
+                const btn = form.querySelector('button[type="submit"]');
+                btn.classList.add('loading');
+                btn.disabled = true;
+                document.getElementById('reviewFormMsg').textContent = '';
+
+                try {
+                    const res = await fetch('https://localhost:7265/api/Reviews', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data),
+                        credentials: 'same-origin'
+                    });
+                    const result = await res.json();
+                    if (res.ok) {
+                        showNotification('Yorumunuz eklendi!', 'success');
+                        form.reset();
+                        setTimeout(() => window.location.reload(), 1200);
+                    } else {
+                        document.getElementById('reviewFormMsg').textContent = result || 'Bir hata oluştu.';
+                    }
+                } catch {
+                    document.getElementById('reviewFormMsg').textContent = 'Sunucuya bağlanılamadı.';
+                }
+                btn.classList.remove('loading');
+                btn.disabled = false;
+            });
         }
-        @@keyframes slideOut {
-            from { transform: translateX(0); opacity: 1; }
-            to { transform: translateX(100%); opacity: 0; }
-        }
-    `;
-    document.head.appendChild(style);</script>
+    });</script>

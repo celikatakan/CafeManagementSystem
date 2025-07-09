@@ -12,4 +12,5 @@
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Business/obj/Debug/net7.0/refint/CafeManagementSystem.Business.dll
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Business/obj/Debug/net7.0/CafeManagementSystem.Business.pdb
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Business/obj/Debug/net7.0/ref/CafeManagementSystem.Business.dll
-/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Business/obj/Debug/net7.0/CafeManagementSystem.Business.csproj.CopyComplete
+/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Business/obj/Debug/net7.0/CafeManagementSystem.Business.sourcelink.json
+/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.Business/obj/Debug/net7.0/CafeMana.EF99BD19.Up2Date

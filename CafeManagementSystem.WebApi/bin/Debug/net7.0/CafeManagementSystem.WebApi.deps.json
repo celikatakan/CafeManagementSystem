@@ -650,7 +650,10 @@
           "Microsoft.AspNetCore.DataProtection.Abstractions": "7.0.19"
         },
         "runtime": {
-          "CafeManagementSystem.Business.dll": {}
+          "CafeManagementSystem.Business.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "CafeManagementSystem.Data/1.0.0": {
@@ -659,7 +662,10 @@
           "Microsoft.EntityFrameworkCore.SqlServer": "7.0.19"
         },
         "runtime": {
-          "CafeManagementSystem.Data.dll": {}
+          "CafeManagementSystem.Data.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }

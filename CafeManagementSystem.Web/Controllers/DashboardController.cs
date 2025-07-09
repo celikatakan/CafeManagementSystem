@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using CafeManagementSystem.Business.Operations.Order.Dtos;
 using CafeManagementSystem.Business.Operations.Product.Dtos;
 using CafeManagementSystem.Business.Operations.Cafe.Dtos;
+using CafeManagementSystem.Data.Context;
+using CafeManagementSystem.Data.Entities;
+using Microsoft.EntityFrameworkCore;
+using static CafeManagementSystem.Web.Services.ApiService;
 
 namespace CafeManagementSystem.Web.Controllers
 {
@@ -31,11 +35,10 @@ namespace CafeManagementSystem.Web.Controllers
                 var stats = CalculateStatistics(orders, products, cafes);
 
                 return View(stats);
-            }
-            catch (Exception ex)
+            }    
+            catch (MaintenanceException)
             {
-                // Hata durumunda boş istatistikler göster
-                return View(new DashboardStats());
+                return RedirectToAction("Index", "Maintenance");
             }
         }
 
@@ -161,7 +164,7 @@ namespace CafeManagementSystem.Web.Controllers
 
         private object CalculatePopularProducts(List<OrderDto> orders, List<ProductDto> products)
         {
-            if (orders == null || products == null) 
+            if (orders == null || products == null)
                 return new { labels = new string[0], data = new int[0] };
 
             var productCounts = new Dictionary<int, int>();

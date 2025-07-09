@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using CafeManagementSystem.Web.Models;
 using CafeManagementSystem.Web.Services;
+using CafeManagementSystem.Data.Enums;
 
 namespace CafeManagementSystem.Web.Controllers
 {
@@ -42,7 +43,9 @@ namespace CafeManagementSystem.Web.Controllers
             {
                 ModelState.AddModelError("", "Sunucuya bağlanılamadı.");
             }
+
             return View(model);
+
         }
 
         [HttpGet]

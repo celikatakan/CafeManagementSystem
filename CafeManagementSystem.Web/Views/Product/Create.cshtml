@@ -17,7 +17,7 @@
                     </p>
                 </div>
                 <div class="header-actions">
-                    <a href="/Product" class="btn btn-outline">
+                    <a href="/Product" class="btn btn-outline" style="margin-left: auto;">
                         <i class="fas fa-arrow-left"></i>
                         Ürün Listesine Dön
                     </a>
@@ -113,6 +113,13 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-left: auto;
+        }
+
         .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -205,11 +212,88 @@
             border-top: 1px solid #eee;
         }
 
+        /* Button Styles */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 500;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: var(--shadow-light);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--gradient-primary);
+            color: white;
+            border-color: transparent;
+            transform: translateY(-2px);
+        }
+
+        /* CSS Variables */
+        :root {
+            --gradient-primary: linear-gradient(135deg, #8B4513, #D2691E);
+            --shadow-light: 0 2px 4px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.15);
+            --text-secondary: #666;
+            --border-color: #ddd;
+        }
+
         /* Responsive */
         @@media (max-width: 768px) {
-            .form-grid {
-                grid-template-columns: 1fr;
+            .page-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
             }
+
+            .header-actions {
+                justify-content: center;
+            }
+
+            .page-title {
+                font-size: 2rem;
+                text-align: center;
+            }
+
+            .form-section {
+                padding: 1.5rem;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
         }
     </style>
 

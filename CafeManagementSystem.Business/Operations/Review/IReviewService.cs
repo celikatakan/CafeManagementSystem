@@ -8,6 +8,7 @@ namespace CafeManagementSystem.Business.Operations.Review
 	{
         Task<ServiceMessage<ReviewDto>> CreateReviewAsync(CreateReviewDto createReviewDto);
         Task<ServiceMessage<List<ReviewDto>>> GetReviewsByCafeIdAsync(int cafeId);
+        Task<ServiceMessage<List<ReviewDto>>> GetReviewsByUserIdAsync(int userId);
     }
 }
 

@@ -167,6 +167,8 @@
         .header-actions {
             display: flex;
             gap: 1rem;
+            justify-content: flex-end;
+            margin-left: auto;
         }
 
         .product-image img {
@@ -400,6 +402,60 @@
                 opacity: 1;
                 transform: translateY(0);
             }
+        }
+
+        /* Button Styles */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 500;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: var(--shadow-light);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--gradient-primary);
+            color: white;
+            border-color: transparent;
+            transform: translateY(-2px);
+        }
+
+        /* CSS Variables */
+        :root {
+            --gradient-primary: linear-gradient(135deg, #8B4513, #D2691E);
+            --gradient-secondary: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            --primary-color: #8B4513;
+            --secondary-color: #D2691E;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --text-muted: #888;
+            --border-color: #ddd;
+            --shadow-light: 0 2px 4px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.15);
+            --shadow-heavy: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
     </style>
 

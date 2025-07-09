@@ -1,86 +1,144 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CafeManagementSystem.Business.Operations.Cafe.Dtos;
-using CafeManagementSystem.Business.Operations.Feature.Dtos;
-using CafeManagementSystem.Business.Operations.Product.Dtos;
+﻿using Microsoft.AspNetCore.Mvc;
 using CafeManagementSystem.Web.Services;
-using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using CafeManagementSystem.Business.Operations.Product.Dtos;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
+using static CafeManagementSystem.Web.Services.ApiService;
 
 namespace CafeManagementSystem.Web.Controllers
 {
+  
     public class ProductController : BaseController
     {
         private readonly ApiService _api;
+        private readonly ILogger<ProductController> _logger;
 
-        public ProductController(ApiService api)
+        public ProductController(ApiService api, ILogger<ProductController> logger)
         {
             _api = api;
+            _logger = logger;
         }
 
         public async Task<IActionResult> Index()
         {
-            var products = await _api.GetAsync<List<ProductDto>>("api/Products");
-            return View(products);
+            try
+            {
+                var products = await _api.GetAsync<List<ProductDto>>("api/Products");
+                return View(products ?? new List<ProductDto>());
+            }
+            catch (MaintenanceException)
+            {
+                return RedirectToAction("Index", "Maintenance");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Ürünler listelenirken hata oluştu");
+                TempData["Error"] = "Ürünler yüklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.";
+                return View(new List<ProductDto>());
+            }
         }
-        [HttpGet]   
-        public async Task<IActionResult> Create()
+
+        [HttpGet]
+        public IActionResult Create()
         {
             return View(new AddProductDto());
         }
+
         [HttpPost]
         public async Task<IActionResult> Create(AddProductDto model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
-                {
-                    await _api.PostAsync("api/Products", model);
-                    return RedirectToAction("Index");
-                }
-                catch (Exception ex)
-                {
-                    // API'den dönen hatayı kullanıcıya göster
-                    ModelState.AddModelError("Ürün", "Kayıt sırasında bir hata oluştu: " + ex.Message);
-                }
+                return View(model);
             }
 
-            return View(model);
+            try
+            {
+                await _api.PostAsync("api/Products", model);
+                TempData["Success"] = "Ürün başarıyla eklendi.";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (MaintenanceException)
+            {
+                return RedirectToAction("Index", "Maintenance");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Ürün eklenirken hata oluştu");
+                ModelState.AddModelError("", "Ürün eklenirken bir hata oluştu: " + ex.Message);
+                return View(model);
+            }
         }
+
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var cafe = await _api.GetAsync<UpdateProductDto>($"api/Products/{id}");
-            return View(cafe);
+            try
+            {
+                var product = await _api.GetAsync<UpdateProductDto>($"api/Products/{id}");
+                if (product == null)
+                {
+                    return NotFound();
+                }
+                return View(product);
+            }
+            catch (MaintenanceException)
+            {
+                return RedirectToAction("Index", "Maintenance");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Ürün düzenleme sayfası açılırken hata oluştu");
+                TempData["Error"] = "Ürün bilgileri yüklenirken bir hata oluştu.";
+                return RedirectToAction(nameof(Index));
+            }
         }
+
         [HttpPost]
         public async Task<IActionResult> Edit(UpdateProductDto model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
-                {
-                    await _api.PutAsync($"api/Products/{model.Id}", model);
-                    return RedirectToAction("Index");
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError("", "Güncelleme sırasında hata oluştu: " + ex.Message);
-                }
+                return View(model);
             }
-          
-            return View(model);
+
+            try
+            {
+                await _api.PutAsync($"api/Products/{model.Id}", model);
+                TempData["Success"] = "Ürün başarıyla güncellendi.";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (MaintenanceException)
+            {
+                return RedirectToAction("Index", "Maintenance");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Ürün güncellenirken hata oluştu");
+                ModelState.AddModelError("", "Güncelleme sırasında hata oluştu: " + ex.Message);
+                return View(model);
+            }
         }
-        [HttpGet]
+
+        [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
-            await _api.DeleteAsync($"api/Products/{id}");
-            // Redirect to another page after deletion
-            return RedirectToAction("Index");
+            try
+            {
+                await _api.DeleteAsync($"api/Products/{id}");
+                TempData["Success"] = "Ürün başarıyla silindi.";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (MaintenanceException)
+            {
+                return RedirectToAction("Index", "Maintenance");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Ürün silinirken hata oluştu");
+                TempData["Error"] = "Ürün silinirken bir hata oluştu: " + ex.Message;
+                return RedirectToAction(nameof(Index));
+            }
         }
     }
 }
-

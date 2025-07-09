@@ -6,6 +6,7 @@ using CafeManagementSystem.Business.Operations.Cafe.Dtos;
 using CafeManagementSystem.Business.Operations.Feature.Dtos;
 using CafeManagementSystem.Web.Services;
 using Microsoft.AspNetCore.Mvc;
+using static CafeManagementSystem.Web.Services.ApiService;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,8 +23,20 @@ namespace CafeManagementSystem.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var cafes = await _api.GetAsync<List<CafeDto>>("api/Cafes");
-            return View(cafes);
+            try
+            {
+                var cafes = await _api.GetAsync<List<CafeDto>>("api/Cafes");
+                return View(cafes ?? new List<CafeDto>());
+            }
+            catch (MaintenanceException)
+            {
+                return RedirectToAction("Index", "Maintenance");
+            }
+            catch 
+            {
+                TempData["Error"] = "Kafeler yüklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.";
+                return View(new List<CafeDto>());
+            }
         }
         [HttpGet]
         public async Task<IActionResult> Create()
@@ -35,7 +48,11 @@ namespace CafeManagementSystem.Web.Controllers
                 ViewBag.Features = features ?? new List<FeatureDto>();
                 return View(new AddCafeDto());
             }
-            catch (HttpRequestException ex)
+            catch (MaintenanceException)
+            {
+                return RedirectToAction("Index", "Maintenance");
+            }
+            catch 
             {
      
                 ViewBag.Features = new List<FeatureDto>();
@@ -53,14 +70,16 @@ namespace CafeManagementSystem.Web.Controllers
                     await _api.PostAsync("api/Cafes", model);
                     return RedirectToAction("Index");
                 }
+                catch (MaintenanceException)
+                {
+                    return RedirectToAction("Index", "Maintenance");
+                }
                 catch (Exception ex)
                 {
-                    // API'den dönen hatayı kullanıcıya göster
                     ModelState.AddModelError("Kafe","Kayıt sırasında bir hata oluştu: " + ex.Message);
                 }
             }
 
-            // Hata durumunda özellikleri tekrar yükle
             var features = await _api.GetAsync<List<FeatureDto>>("api/Features/");
             ViewBag.Features = features ?? new List<FeatureDto>();
             return View(model);
@@ -68,10 +87,19 @@ namespace CafeManagementSystem.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var cafe = await _api.GetAsync<UpdateCafeDto>($"api/Cafes/{id}");
-            var features = await _api.GetAsync<List<FeatureDto>>("api/Features/api/Features");
-            ViewBag.Features = features ?? new List<FeatureDto>();
-            return View(cafe);
+            
+            try
+            {
+                var cafe = await _api.GetAsync<UpdateCafeDto>($"api/Cafes/{id}");
+                var features = await _api.GetAsync<List<FeatureDto>>("api/Features/api/Features");
+                ViewBag.Features = features ?? new List<FeatureDto>();
+                return View(cafe);
+            }
+            catch (MaintenanceException)
+            {
+                return RedirectToAction("Index", "Maintenance");
+            }
+           
         }
         [HttpPost]
         public async Task<IActionResult> Edit(UpdateCafeDto model)
@@ -83,6 +111,10 @@ namespace CafeManagementSystem.Web.Controllers
                     await _api.PutAsync($"api/Cafes/{model.Id}", model);
                     return RedirectToAction("Index");
                 }
+                catch (MaintenanceException)
+                {
+                    return RedirectToAction("Index", "Maintenance");
+                }   
                 catch (Exception ex)
                 {
                     ModelState.AddModelError("", "Güncelleme sırasında hata oluştu: " + ex.Message);
@@ -94,10 +126,17 @@ namespace CafeManagementSystem.Web.Controllers
         }
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
-        {
-            await _api.DeleteAsync($"api/Cafes/{id}");
-            // Redirect to another page after deletion
-            return RedirectToAction("Index");
+        {       
+            try
+            {
+                await _api.DeleteAsync($"api/Cafes/{id}");
+                return RedirectToAction("Index");
+            }
+            catch (MaintenanceException)
+            {
+                return RedirectToAction("Index", "Maintenance");
+            }
+        
         }
     }
 }

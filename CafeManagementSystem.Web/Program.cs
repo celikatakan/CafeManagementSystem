@@ -1,22 +1,57 @@
 ﻿
+using CafeManagementSystem.Web.Middleware;
 using CafeManagementSystem.Web.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// Authentication ve Authorization servisleri
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+})
+.AddCookie(options =>
+{
+    options.LoginPath = "/Account/Login";
+    options.LogoutPath = "/Account/Logout";
+    options.AccessDeniedPath = "/Account/AccessDenied";
+    options.Cookie.Name = "AuthCookie";
+    options.Cookie.HttpOnly = true;
+    options.ExpireTimeSpan = TimeSpan.FromHours(24);
+    options.SlidingExpiration = true;
+});
+
+builder.Services.AddAuthorization();
+
 // Program.cs'de
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<CafeManagementSystem.Web.Filters.MaintenanceFilter>();
+//builder.Services.AddHttpClient<ApiService>(client =>
+//{
+//    var baseUrl = builder.Configuration["ApiSettings:BaseUrl"];
+//    client.BaseAddress = new Uri(baseUrl);
+//    client.Timeout = TimeSpan.FromSeconds(
+//        builder.Configuration.GetValue<int>("ApiSettings:Timeout"));
+//});
+
 builder.Services.AddHttpClient<ApiService>(client =>
 {
     var baseUrl = builder.Configuration["ApiSettings:BaseUrl"];
-    client.BaseAddress = new Uri(baseUrl);
+    client.BaseAddress = new Uri(baseUrl ?? "https://localhost:7265/");
     client.Timeout = TimeSpan.FromSeconds(
-        builder.Configuration.GetValue<int>("ApiSettings:Timeout"));
+        builder.Configuration.GetValue<int>("ApiSettings:Timeout", 30)); 
 });
+
 builder.Services.AddScoped<ApiService>();
 
+
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -28,9 +63,11 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseMiddleware<MaintenanceMiddleware>();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

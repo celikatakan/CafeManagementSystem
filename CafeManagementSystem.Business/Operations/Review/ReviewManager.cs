@@ -145,6 +145,43 @@ namespace CafeManagementSystem.Business.Operations.Review
                     };
                 }
             }
+
+            public async Task<ServiceMessage<List<ReviewDto>>> GetReviewsByUserIdAsync(int userId)
+            {
+                try
+                {
+                    var reviews = await _reviewRepository.GetAllAsync(
+                        r => r.UserId == userId,
+                        include: q => q.Include(r => r.User)
+                    );
+
+                    var reviewDtos = reviews.Select(r => new ReviewDto(
+                        r.Id,
+                        r.CafeId,
+                        r.UserId,
+                        $"{r.User.FirstName} {r.User.LastName}",
+                        r.Rating,
+                        r.Comment ?? string.Empty,
+                        r.CreatedDate
+                    )).OrderByDescending(r => r.CreatedDate).ToList();
+
+                    return new ServiceMessage<List<ReviewDto>>
+                    {
+                        IsSucceed = true,
+                        Message = "Kullanıcının yorumları başarıyla getirildi.",
+                        Data = reviewDtos
+                    };
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Kullanıcının yorumları getirilirken hata oluştu.");
+                    return new ServiceMessage<List<ReviewDto>>
+                    {
+                        IsSucceed = false,
+                        Message = "Kullanıcının yorumları getirilirken bir hata oluştu."
+                    };
+                }
+            }
         }
     }
 
