@@ -2,6 +2,16 @@
 
 .NET 7 ile geliştirilmiş, hem web arayüzü hem de API endpoints sunan kapsamlı bir kafe yönetim çözümü. Kafeler, siparişler, ürünler ve müşteri değerlendirmelerini yönetmek için tasarlanmıştır.
 
+<img width="2240" height="1021" alt="Image" src="https://github.com/user-attachments/assets/2d7db273-2fdb-4a94-853f-ae87826b0230" />
+
+
+<img width="2240" height="1029" alt="Image" src="https://github.com/user-attachments/assets/f4f41788-123a-44b1-adac-0e2ed6d5a033" />
+
+
+<img width="2240" height="1026" alt="Image" src="https://github.com/user-attachments/assets/620dfa60-9a87-4013-a65f-394f3d61b216" />
+
+
+
 ## 🚀 Özellikler
 
 - **Çoklu Kafe Yönetimi**
@@ -132,10 +142,3 @@ Proje, aşağıdaki ana bileşenlerle temiz mimari (clean architecture) desenini
 4. Branch'inize push edin
 5. Yeni bir Pull Request oluşturun
 
-## 📄 Lisans
-
-[Lisans bilgilerinizi buraya ekleyin]
-
-## 📞 Destek
-
-[Destek iletişim bilgilerinizi buraya ekleyin] 
