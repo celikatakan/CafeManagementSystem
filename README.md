@@ -108,8 +108,8 @@ Proje, aşağıdaki ana bileşenlerle temiz mimari (clean architecture) desenini
 - Kafe Yönetimi
 - Sipariş İşlemleri
 - Ürün Yönetimi
-- Değerlendirme Sistemi
-- Ayarlar Yönetimi
+- Yorum Sistemi
+- Bakım Yönetimi
 
 ### Veri Katmanı
 - Entity Framework Core
@@ -134,11 +134,4 @@ Proje, aşağıdaki ana bileşenlerle temiz mimari (clean architecture) desenini
 - `/api/orders`: Sipariş işlemleri
 - `/api/reviews`: Değerlendirme yönetimi
 
-## 🤝 Katkıda Bulunma
-
-1. Repository'yi fork edin
-2. Feature branch'inizi oluşturun
-3. Değişikliklerinizi commit edin
-4. Branch'inize push edin
-5. Yeni bir Pull Request oluşturun
 
