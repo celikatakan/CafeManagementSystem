@@ -32,5 +32,6 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.19" />
+    <PackageReference Include="Iyzipay" Version="2.1.67" />
   </ItemGroup>
 </Project>

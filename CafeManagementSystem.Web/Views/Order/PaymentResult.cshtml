@@ -1,0 +1,60 @@
+@{
+    ViewData["Title"] = "Ödeme Sonucu";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    @if (ViewBag.Status == "success")
+                    {
+                        <div class="text-success mb-4">
+                            <i class="fas fa-check-circle fa-4x"></i>
+                        </div>
+                        <h2 class="card-title">Ödeme Başarılı!</h2>
+                        <p class="card-text">Siparişiniz başarıyla alındı ve işleme konuldu.</p>
+                    }
+                    else
+                    {
+                        <div class="text-danger mb-4">
+                            <i class="fas fa-times-circle fa-4x"></i>
+                        </div>
+                        <h2 class="card-title">Ödeme Başarısız</h2>
+                        <p class="card-text">@ViewBag.ErrorMessage</p>
+                    }
+                    
+                    <div class="mt-4">
+                        <a href="/Customer/Detail/@ViewBag.CafeId" class="btn btn-primary">Kafe Sayfasına Dön</a>
+                        <a href="/Customer/Orders" class="btn btn-secondary">Siparişlerim</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-body {
+        padding: 2rem;
+    }
+
+    .fa-check-circle {
+        color: #28a745;
+    }
+
+    .fa-times-circle {
+        color: #dc3545;
+    }
+
+    .btn {
+        margin: 0 5px;
+        border-radius: 8px;
+        padding: 8px 20px;
+    }
+</style> 

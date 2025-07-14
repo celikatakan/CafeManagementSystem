@@ -5,16 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CafeHub - Türkiye'nin En Büyük Cafe Platformu</title>
     <style>
-        /* Layout ile uyumlu olması için sadece gerekli stiller */
+        :root {
+            --primary-color: #8B4513;
+            --primary-dark: #6B3410;
+            --secondary-color: #D2691E;
+            --accent-color: #CD853F;
+            --bg-primary: #FFF8DC;
+            --bg-secondary: #F5F5DC;
+            --text-primary: #2C1810;
+            --text-muted: #6B4423;
+            --border-color: #DDD;
+            --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 8px 15px rgba(0, 0, 0, 0.2);
+            --shadow-heavy: 0 15px 35px rgba(0, 0, 0, 0.3);
+            --gradient-primary: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+            --gradient-secondary: linear-gradient(135deg, #D2691E 0%, #CD853F 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+        }
+
         .page-content {
             min-height: calc(100vh - 200px);
             position: relative;
-            margin:50px;
+            margin: 50px;
         }
 
         /* Hero Section */
         .hero-section {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            background: linear-gradient(135deg, rgba(44, 24, 16, 0.9) 0%, rgba(139, 69, 19, 0.85) 100%);
             min-height: 70vh;
             display: flex;
             align-items: center;
@@ -33,8 +62,9 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a"><stop offset="0" stop-color="%23ffffff" stop-opacity="0.1"/><stop offset="1" stop-color="%23ffffff" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="100" fill="url(%23a)"/><circle cx="800" cy="300" r="150" fill="url(%23a)"/><circle cx="300" cy="700" r="80" fill="url(%23a)"/><circle cx="700" cy="800" r="120" fill="url(%23a)"/></svg>');
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><linearGradient id="coffee-gradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23654321;stop-opacity:0.3"/><stop offset="100%" style="stop-color:%23A0522D;stop-opacity:0.1"/></linearGradient></defs><g opacity="0.4"><path d="M100 300 Q150 250 200 300 Q250 350 300 300 Q350 250 400 300" stroke="%23CD853F" stroke-width="2" fill="none" opacity="0.3"/><circle cx="150" cy="200" r="30" fill="url(%23coffee-gradient)"/><circle cx="300" cy="150" r="25" fill="url(%23coffee-gradient)"/><circle cx="500" cy="250" r="35" fill="url(%23coffee-gradient)"/><ellipse cx="200" cy="400" rx="40" ry="15" fill="%23654321" opacity="0.2"/><ellipse cx="400" cy="450" rx="35" ry="12" fill="%23654321" opacity="0.2"/><ellipse cx="600" cy="380" rx="30" ry="10" fill="%23654321" opacity="0.2"/><g transform="translate(700,200)"><ellipse cx="0" cy="0" rx="50" ry="35" fill="%23D2691E" opacity="0.3"/><ellipse cx="0" cy="0" rx="35" ry="25" fill="%238B4513" opacity="0.4"/><ellipse cx="0" cy="0" rx="20" ry="15" fill="%23654321" opacity="0.5"/><path d="M25 -10 Q35 -5 25 0 Q15 5 25 10" stroke="%23FFFFFF" stroke-width="1.5" fill="none" opacity="0.6"/><path d="M20 -5 Q30 0 20 5 Q10 10 20 15" stroke="%23FFFFFF" stroke-width="1" fill="none" opacity="0.4"/><path d="M15 0 Q25 5 15 10 Q5 15 15 20" stroke="%23FFFFFF" stroke-width="0.8" fill="none" opacity="0.3"/></g><g transform="translate(150,500)"><ellipse cx="0" cy="0" rx="40" ry="30" fill="%23D2691E" opacity="0.3"/><ellipse cx="0" cy="0" rx="30" ry="20" fill="%238B4513" opacity="0.4"/><ellipse cx="0" cy="0" rx="15" ry="12" fill="%23654321" opacity="0.5"/><path d="M20 -8 Q30 -4 20 0 Q10 4 20 8" stroke="%23FFFFFF" stroke-width="1.2" fill="none" opacity="0.5"/><path d="M15 -4 Q25 0 15 4 Q5 8 15 12" stroke="%23FFFFFF" stroke-width="0.8" fill="none" opacity="0.3"/></g><g transform="translate(900,400)"><ellipse cx="0" cy="0" rx="35" ry="25" fill="%23D2691E" opacity="0.3"/><ellipse cx="0" cy="0" rx="25" ry="18" fill="%238B4513" opacity="0.4"/><ellipse cx="0" cy="0" rx="12" ry="10" fill="%23654321" opacity="0.5"/><path d="M15 -6 Q25 -3 15 0 Q5 3 15 6" stroke="%23FFFFFF" stroke-width="1" fill="none" opacity="0.4"/></g><path d="M50 600 Q100 550 150 600 Q200 650 250 600 Q300 550 350 600" stroke="%23A0522D" stroke-width="1.5" fill="none" opacity="0.2"/><path d="M400 650 Q450 600 500 650 Q550 700 600 650" stroke="%23A0522D" stroke-width="1.5" fill="none" opacity="0.2"/><circle cx="800" cy="100" r="3" fill="%23FFFFFF" opacity="0.4"/><circle cx="950" cy="150" r="2" fill="%23FFFFFF" opacity="0.3"/><circle cx="750" cy="50" r="2.5" fill="%23FFFFFF" opacity="0.3"/><circle cx="1000" cy="80" r="2" fill="%23FFFFFF" opacity="0.2"/></g></svg>');
             animation: float 15s ease-in-out infinite;
+            z-index: 1;
         }
 
         @@keyframes float {
@@ -118,9 +148,28 @@
         /* User Selection Section */
         .user-selection {
             padding: 4rem 0;
-            background: var(--bg-secondary);
+            background: linear-gradient(135deg, #F5F5DC 0%, #FFF8DC 100%);
             border-radius: 20px;
             margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .user-selection::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="coffee-pattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="%23D2691E" opacity="0.1"/><path d="M5 8 Q7 6 9 8 T13 8" stroke="%23CD853F" stroke-width="0.5" fill="none" opacity="0.2"/></pattern></defs><rect width="100" height="100" fill="url(%23coffee-pattern)"/></svg>');
+            animation: drift 30s linear infinite;
+            z-index: 1;
+        }
+
+        @@keyframes drift {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-50px, -50px); }
         }
 
         .section-title {
@@ -130,6 +179,7 @@
             margin-bottom: 3rem;
             color: var(--text-primary);
             position: relative;
+            z-index: 2;
         }
 
         .section-title::after {
@@ -149,16 +199,18 @@
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
             margin-top: 2rem;
+            position: relative;
+            z-index: 2;
         }
 
         .user-card {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 2.5rem;
             text-align: center;
-            box-shadow: var(--shadow-light);
-            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 25px rgba(139, 69, 19, 0.15);
+            border: 1px solid rgba(210, 105, 30, 0.2);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
@@ -178,7 +230,7 @@
 
         .user-card:hover {
             transform: translateY(-8px);
-            box-shadow: var(--shadow-heavy);
+            box-shadow: 0 15px 35px rgba(139, 69, 19, 0.25);
         }
 
         .user-card:hover::before {
@@ -197,6 +249,24 @@
             font-size: 2rem;
             color: white;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .user-icon::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50"><path d="M25 10 Q30 15 25 20 Q20 15 25 10" fill="white" opacity="0.1"/><circle cx="25" cy="25" r="2" fill="white" opacity="0.2"/></svg>');
+            animation: iconPattern 8s linear infinite;
+        }
+
+        @@keyframes iconPattern {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .user-card:hover .user-icon {
@@ -224,20 +294,40 @@
             font-size: 0.9rem;
             text-transform: none;
             letter-spacing: normal;
+            box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3);
         }
 
         .user-card .btn:hover {
             background: var(--gradient-primary);
             transform: translateY(-2px);
-            box-shadow: var(--shadow-medium);
+            box-shadow: 0 8px 20px rgba(139, 69, 19, 0.4);
         }
 
         /* Features Section */
         .features-section {
             padding: 4rem 0;
-            background: rgba(255, 255, 255, 0.5);
+            background: linear-gradient(135deg, rgba(245, 245, 220, 0.6) 0%, rgba(255, 248, 220, 0.8) 100%);
             border-radius: 20px;
             margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .features-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><pattern id="cafe-bg" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="%23CD853F" opacity="0.1"/><ellipse cx="15" cy="15" rx="3" ry="1" fill="%23D2691E" opacity="0.08"/><ellipse cx="25" cy="25" rx="2" ry="1" fill="%23A0522D" opacity="0.06"/></pattern></defs><rect width="200" height="200" fill="url(%23cafe-bg)"/></svg>');
+            opacity: 0.3;
+            animation: backgroundMove 25s linear infinite;
+        }
+
+        @@keyframes backgroundMove {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-40px); }
         }
 
         .features-grid {
@@ -245,16 +335,18 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
             margin-top: 2rem;
+            position: relative;
+            z-index: 2;
         }
 
         .feature-card {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             padding: 2rem;
             border-radius: 16px;
             text-align: center;
-            box-shadow: var(--shadow-light);
-            border: 1px solid var(--border-color);
+            box-shadow: 0 6px 20px rgba(139, 69, 19, 0.12);
+            border: 1px solid rgba(210, 105, 30, 0.15);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
@@ -274,7 +366,7 @@
 
         .feature-card:hover {
             transform: translateY(-8px);
-            box-shadow: var(--shadow-heavy);
+            box-shadow: 0 12px 30px rgba(139, 69, 19, 0.2);
         }
 
         .feature-card:hover::before {
@@ -284,7 +376,7 @@
         .feature-icon {
             width: 70px;
             height: 70px;
-            background: var(--gradient-primary);
+            background: var(--gradient-secondary);
             border-radius: 20px;
             display: flex;
             align-items: center;
@@ -293,6 +385,24 @@
             font-size: 1.5rem;
             color: white;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-icon::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
+            animation: shimmer 3s infinite;
+        }
+
+        @@keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%); }
+            100% { transform: translateX(100%) translateY(100%); }
         }
 
         .feature-card:hover .feature-icon {
@@ -320,6 +430,24 @@
             text-align: center;
             border-radius: 20px;
             margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="stats-pattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="white" opacity="0.1"/><path d="M5 8 C7 6 9 6 11 8 C13 10 15 10 17 8" stroke="white" stroke-width="0.5" fill="none" opacity="0.15"/></pattern></defs><rect width="100" height="100" fill="url(%23stats-pattern)"/></svg>');
+            animation: statsFloat 20s ease-in-out infinite;
+        }
+
+        @@keyframes statsFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
         }
 
         .stats-grid {
@@ -327,11 +455,31 @@
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 2rem;
             margin-top: 2rem;
+            position: relative;
+            z-index: 2;
         }
 
         .stat-item {
             text-align: center;
             padding: 1rem;
+            position: relative;
+        }
+
+        .stat-item::before {
+            content: '☕';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+            opacity: 0.3;
+            animation: bounce 2s infinite;
+        }
+
+        @@keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-5px); }
+            60% { transform: translateX(-50%) translateY(-3px); }
         }
 
         .stat-number {

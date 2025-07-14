@@ -4,6 +4,7 @@ using CafeManagementSystem.Business.DataProtection;
 using CafeManagementSystem.Business.Operations.Cafe;
 using CafeManagementSystem.Business.Operations.Feature;
 using CafeManagementSystem.Business.Operations.Order;
+using CafeManagementSystem.Business.Operations.Payment;
 using CafeManagementSystem.Business.Operations.Product;
 using CafeManagementSystem.Business.Operations.Review;
 using CafeManagementSystem.Business.Operations.Setting;
@@ -19,9 +20,23 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
+// Add CORS configuration
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowWebApp",
+        builder => builder
+            .WithOrigins("https://localhost:7062")
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials());
+});
+
 // Add services to the container.
+
+
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -29,6 +44,7 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.PropertyNamingPolicy = null;
         options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
     });
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddSwaggerGen(options =>
 {
@@ -61,19 +77,6 @@ var keysDirectory = new DirectoryInfo(Path.Combine(builder.Environment.ContentRo
 builder.Services.AddDataProtection()
     .SetApplicationName("BookingApp")
     .PersistKeysToFileSystem(keysDirectory);
-
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(policy =>
-    {
-        policy.WithOrigins("https://localhost:7062") // Web projesinin adresi
-              .AllowAnyHeader()
-              .AllowAnyMethod()
-              .AllowCredentials();
-    });
-});
-
-
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -121,9 +124,11 @@ app.UseMaintenanceMode();
 
 app.UseHttpsRedirection();
 
+// Add CORS middleware
+app.UseCors("AllowWebApp");
+
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseCors();
 
 app.MapControllers();
 

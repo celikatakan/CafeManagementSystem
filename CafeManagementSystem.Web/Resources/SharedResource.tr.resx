@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Panel</value>
+  </data>
+  <data name="Products" xml:space="preserve">
+    <value>Ürünler</value>
+  </data>
+  <data name="Orders" xml:space="preserve">
+    <value>Siparişler</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Profil</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Çıkış Yap</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Giriş Yap</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Kayıt Ol</value>
+  </data>
+  <data name="Reviews" xml:space="preserve">
+    <value>Yorum</value>
+  </data>
+  <data name="MemberSince" xml:space="preserve">
+    <value>Üyelik</value>
+  </data>
+  <data name="MyReviews" xml:space="preserve">
+    <value>Yorumlarım</value>
+  </data>
+  <data name="ViewCafe" xml:space="preserve">
+    <value>Kafeyi Görüntüle</value>
+  </data>
+  <data name="NoReviewsYet" xml:space="preserve">
+    <value>Henüz yorum yapmamışsınız</value>
+  </data>
+  <data name="ExploreCafes" xml:space="preserve">
+    <value>Kafeleri Keşfet</value>
+  </data>
+</root> 

@@ -46,6 +46,18 @@
           }
         }
       },
+      "Iyzipay/2.1.67": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.2"
+        },
+        "compile": {
+          "lib/netstandard2.1/Iyzipay.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.1/Iyzipay.dll": {}
+        }
+      },
       "Microsoft.AspNetCore.DataProtection.Abstractions/7.0.19": {
         "type": "package",
         "compile": {
@@ -1017,6 +1029,7 @@
         "framework": ".NETCoreApp,Version=v7.0",
         "dependencies": {
           "CafeManagementSystem.Data": "1.0.0",
+          "Iyzipay": "2.1.67",
           "Microsoft.AspNetCore.DataProtection.Abstractions": "7.0.19"
         },
         "compile": {
@@ -1083,6 +1096,19 @@
         "azureicon.png",
         "lib/netstandard2.0/Azure.Identity.dll",
         "lib/netstandard2.0/Azure.Identity.xml"
+      ]
+    },
+    "Iyzipay/2.1.67": {
+      "sha512": "kkfOlKCwF2H3eponeJWU51yN1Y8EzFqz/ckYgCD7OLqqjUP455Cgt8nxpvwzXCVdzhHinaQe7469gZMwZl/UpQ==",
+      "type": "package",
+      "path": "iyzipay/2.1.67",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "iyzipay.2.1.67.nupkg.sha512",
+        "iyzipay.nuspec",
+        "lib/net45/Iyzipay.dll",
+        "lib/netstandard2.1/Iyzipay.dll"
       ]
     },
     "Microsoft.AspNetCore.DataProtection.Abstractions/7.0.19": {
@@ -2810,6 +2836,7 @@
   "projectFileDependencyGroups": {
     "net7.0": [
       "CafeManagementSystem.Business >= 1.0.0",
+      "Iyzipay >= 2.1.67",
       "Microsoft.EntityFrameworkCore >= 7.0.19",
       "Newtonsoft.Json >= 13.0.3"
     ]
@@ -2860,6 +2887,10 @@
       "net7.0": {
         "targetAlias": "net7.0",
         "dependencies": {
+          "Iyzipay": {
+            "target": "Package",
+            "version": "[2.1.67, )"
+          },
           "Microsoft.EntityFrameworkCore": {
             "target": "Package",
             "version": "[7.0.19, )"

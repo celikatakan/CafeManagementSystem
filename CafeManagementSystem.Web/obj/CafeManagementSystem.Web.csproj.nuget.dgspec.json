@@ -47,6 +47,10 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "Iyzipay": {
+              "target": "Package",
+              "version": "[2.1.67, )"
+            },
             "Microsoft.AspNetCore.DataProtection.Abstractions": {
               "target": "Package",
               "version": "[7.0.19, )"
@@ -195,6 +199,10 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "Iyzipay": {
+              "target": "Package",
+              "version": "[2.1.67, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[7.0.19, )"

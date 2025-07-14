@@ -48,6 +48,7 @@
     <Folder Include="Operations\Setting\Dtos\" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Iyzipay" Version="2.1.67" />
     <PackageReference Include="Microsoft.AspNetCore.DataProtection.Abstractions" Version="7.0.19" />
   </ItemGroup>
 </Project>
