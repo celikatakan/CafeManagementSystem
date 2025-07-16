@@ -36,6 +36,13 @@ namespace CafeManagementSystem.WebApi.Controllers
             return Ok(await _orderService.GetAllOrdersAsync());
         }
 
+        [HttpGet("user/{userId}")]
+        public async Task<IActionResult> GetOrdersByUser(int userId)
+        {
+            var orders = await _orderService.GetOrdersByUserAsync(userId);
+            return Ok(orders);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateOrderDto dto)
         {

@@ -22,6 +22,7 @@ namespace CafeManagementSystem.Data.Context
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new ReviewConfiguration());
+            modelBuilder.ApplyConfiguration(new CafeLikeConfiguration());
             modelBuilder.Entity<SettingEntity>().HasData(
                 new SettingEntity
                 {
@@ -40,6 +41,8 @@ namespace CafeManagementSystem.Data.Context
         public DbSet<ProductEntity> Products => Set<ProductEntity>();
         public DbSet<ReviewEntity> Reviews => Set<ReviewEntity>();
         public DbSet<SettingEntity> Settings => Set<SettingEntity>();
+        public DbSet<CafeLikeEntity> CafeLikes { get; set; }
+
     }
     public class CafeAppDbContextFactory : IDesignTimeDbContextFactory<CafeAppDbContext>
     {

@@ -2,6 +2,8 @@
 using System.Net.Http;
 using System.Net.Http.Json;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Http;
+using System.Net.Http.Headers;
 
 namespace CafeManagementSystem.Web.Services
 {
@@ -9,18 +11,31 @@ namespace CafeManagementSystem.Web.Services
     {
         private readonly HttpClient _httpClient;
         private readonly string _baseUrl;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ApiService(HttpClient httpClient, IConfiguration configuration)
+        public ApiService(HttpClient httpClient, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
             _httpClient = httpClient;
             _baseUrl = configuration["ApiSettings:BaseUrl"] ?? "https://localhost:7265/";
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+        private void AddJwtHeader(HttpRequestMessage request)
+        {
+            var token = _httpContextAccessor.HttpContext?.Request.Cookies["AuthToken"];
+            if (!string.IsNullOrEmpty(token))
+            {
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            }
         }
 
         public async Task<T?> GetAsync<T>(string endpoint)
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{_baseUrl}{endpoint}");
+                var request = new HttpRequestMessage(HttpMethod.Get, $"{_baseUrl}{endpoint}");
+                AddJwtHeader(request);
+                var response = await _httpClient.SendAsync(request);
 
                 if (response.StatusCode == System.Net.HttpStatusCode.ServiceUnavailable)
                 {
@@ -48,7 +63,12 @@ namespace CafeManagementSystem.Web.Services
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync($"{_baseUrl}{endpoint}", data);
+                var request = new HttpRequestMessage(HttpMethod.Post, $"{_baseUrl}{endpoint}")
+                {
+                    Content = JsonContent.Create(data)
+                };
+                AddJwtHeader(request);
+                var response = await _httpClient.SendAsync(request);
 
                 if (response.StatusCode == System.Net.HttpStatusCode.ServiceUnavailable)
                 {
@@ -75,7 +95,12 @@ namespace CafeManagementSystem.Web.Services
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync($"{_baseUrl}{endpoint}", data);
+                var request = new HttpRequestMessage(HttpMethod.Post, $"{_baseUrl}{endpoint}")
+                {
+                    Content = JsonContent.Create(data)
+                };
+                AddJwtHeader(request);
+                var response = await _httpClient.SendAsync(request);
 
                 if (response.StatusCode == System.Net.HttpStatusCode.ServiceUnavailable)
                 {
@@ -104,7 +129,12 @@ namespace CafeManagementSystem.Web.Services
         {
             try
             {
-                var response = await _httpClient.PutAsJsonAsync($"{_baseUrl}{endpoint}", data);
+                var request = new HttpRequestMessage(HttpMethod.Put, $"{_baseUrl}{endpoint}")
+                {
+                    Content = JsonContent.Create(data)
+                };
+                AddJwtHeader(request);
+                var response = await _httpClient.SendAsync(request);
 
                 if (response.StatusCode == System.Net.HttpStatusCode.ServiceUnavailable)
                 {
@@ -131,7 +161,9 @@ namespace CafeManagementSystem.Web.Services
         {
             try
             {
-                var response = await _httpClient.DeleteAsync($"{_baseUrl}{endpoint}");
+                var request = new HttpRequestMessage(HttpMethod.Delete, $"{_baseUrl}{endpoint}");
+                AddJwtHeader(request);
+                var response = await _httpClient.SendAsync(request);
 
                 if (response.StatusCode == System.Net.HttpStatusCode.ServiceUnavailable)
                 {
@@ -157,6 +189,7 @@ namespace CafeManagementSystem.Web.Services
                 {
                     Content = data != null ? JsonContent.Create(data) : null
                 };
+                AddJwtHeader(request);
                 var response = await _httpClient.SendAsync(request);
 
                 if (response.StatusCode == System.Net.HttpStatusCode.ServiceUnavailable)

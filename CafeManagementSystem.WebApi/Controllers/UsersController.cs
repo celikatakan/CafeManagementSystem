@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using CafeManagementSystem.Business.Operations.User;
 using CafeManagementSystem.Business.Operations.User.Dtos;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using CafeManagementSystem.Business.Operations.Cafe;
 
 namespace CafeManagementSystem.WebApi.Controllers
 {
@@ -12,10 +14,12 @@ namespace CafeManagementSystem.WebApi.Controllers
     public class UsersController : Controller
     {
         private readonly IUserService _userService;
+        private readonly ICafeLikeService _cafeLikeService;
 
-        public UsersController(IUserService userService)
+        public UsersController(IUserService userService, ICafeLikeService cafeLikeService)
         {
             _userService = userService;
+            _cafeLikeService = cafeLikeService;
         }
 
         [HttpGet]
@@ -48,6 +52,14 @@ namespace CafeManagementSystem.WebApi.Controllers
         {
             await _userService.DeleteUserAsync(id);
             return NoContent();
+        }
+
+        [HttpGet("{id}/likedcafes")]
+        [Authorize]
+        public async Task<IActionResult> GetLikedCafes(int id)
+        {
+            var cafes = await _cafeLikeService.GetLikedCafesByUserAsync(id);
+            return Ok(cafes);
         }
     }
 } 

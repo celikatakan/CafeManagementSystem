@@ -76,8 +76,10 @@ namespace CafeManagementSystem.WebApi.Controllers
 
             return Ok(new LoginResponse
             {
-                Message = "Giriş başaralı.",
+                Message = "Giriş başarılı.",
                 Token = token,
+                UserId = user.Id,
+                FirstName = user.FirstName
             });
         }
 

@@ -14,6 +14,8 @@ namespace CafeManagementSystem.Data.Entities
         public DateTime BirthDate { get; set; }
         public UserType UserType { get; set; }
         public ICollection<OrderEntity> Orders { get; set; }
+        public ICollection<CafeLikeEntity> LikedCafes { get; set; }
+
     }
     public class UserConfiguration : BaseConfiguration<UserEntity>
     {

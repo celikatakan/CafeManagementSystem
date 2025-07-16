@@ -35,6 +35,10 @@ namespace CafeManagementSystem.Web.Controllers
                         Secure = true,
                         SameSite = SameSiteMode.Strict
                     });
+                    // Hibrit: Token ve kullanıcı bilgilerini TempData ile View'a aktar
+                    TempData["JwtToken"] = response.Token;
+                    TempData["UserId"] = response.UserId;
+                    TempData["UserName"] = response.UserName;
                     return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError("", "Giriş başarısız.");

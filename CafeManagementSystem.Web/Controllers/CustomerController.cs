@@ -61,8 +61,6 @@ namespace CafeManagementSystem.Web.Controllers
         }
         public async Task<IActionResult> Info()
         {
-          
-
             try
             {
                 var userInfo = new UserInfoDto
@@ -82,6 +80,17 @@ namespace CafeManagementSystem.Web.Controllers
                     userInfo.Reviews = reviews;
                 }
 
+                // Get user's orders
+                var orders = await _api.GetAsync<List<OrderDto>>($"api/Orders/user/{userInfo.Id}");
+                if (orders != null)
+                {
+                    userInfo.Orders = orders;
+                }
+
+                // Get user's liked cafes
+                var likedCafes = await _api.GetAsync<List<CafeDto>>($"api/Users/{userInfo.Id}/likedcafes");
+                ViewBag.LikedCafes = likedCafes ?? new List<CafeDto>();
+
                 return View(userInfo);
             }
             catch (MaintenanceException)
@@ -89,6 +98,8 @@ namespace CafeManagementSystem.Web.Controllers
                 return RedirectToAction("Index", "Maintenance");
             }
         }
+
+
     }
 }
 

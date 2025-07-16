@@ -33,9 +33,6 @@
     <None Remove="Models\" />
     <None Remove="Jwt\" />
     <None Remove="Middlewares\" />
-    <None Remove="Views\" />
-    <None Remove="Views\Cafe\" />
-    <None Remove="Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -43,9 +40,6 @@
     <Folder Include="Jwt\" />
     <Folder Include="Middlewares\" />
     <Folder Include="wwwroot\" />
-    <Folder Include="Views\" />
-    <Folder Include="Views\Cafe\" />
-    <Folder Include="Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\" />

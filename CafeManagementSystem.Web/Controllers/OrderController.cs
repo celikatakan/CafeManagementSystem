@@ -90,6 +90,35 @@ namespace CafeManagementSystem.Web.Controllers
                 return RedirectToAction("Index", "Maintenance");
             }
         }
+        [HttpPost]
+        public async Task<IActionResult> Repeat([FromBody] CreateOrderDto model)
+        {
+            // Kullanıcı kimliği cookie/claim'den alınacak
+            if (!User.Identity.IsAuthenticated)
+                return Unauthorized();
+
+            // Sadece kendi adına sipariş oluşturulabilir
+            int userId = int.Parse(User.FindFirst("id")?.Value ?? "0");
+            if (userId == 0)
+                return Unauthorized();
+
+            var repeatOrder = new CreateOrderDto
+            {
+                ProductId = model.ProductId,
+                UserId = userId,
+                GuestCount = model.GuestCount,
+                SpecialRequest = model.SpecialRequest
+            };
+            try
+            {
+                await _api.PostAsync("api/Orders", repeatOrder);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {

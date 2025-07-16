@@ -70,8 +70,6 @@
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/obj/Debug/net7.0/CafeManagementSystem.WebApi.csproj.CoreCompileInputs.cache
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/obj/Debug/net7.0/CafeManagementSystem.WebApi.MvcApplicationPartsAssemblyInfo.cs
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/obj/Debug/net7.0/CafeManagementSystem.WebApi.MvcApplicationPartsAssemblyInfo.cache
-/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/obj/Debug/net7.0/CafeManagementSystem.WebApi.RazorAssemblyInfo.cache
-/Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/obj/Debug/net7.0/CafeManagementSystem.WebApi.RazorAssemblyInfo.cs
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/obj/Debug/net7.0/staticwebassets.build.json
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/obj/Debug/net7.0/staticwebassets.development.json
 /Users/a1-07/Projects/CafeManagementSystem/CafeManagementSystem.WebApi/obj/Debug/net7.0/staticwebassets/msbuild.CafeManagementSystem.WebApi.Microsoft.AspNetCore.StaticWebAssets.props

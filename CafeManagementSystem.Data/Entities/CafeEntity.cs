@@ -11,6 +11,7 @@ namespace CafeManagementSystem.Data.Entities
 
         public ICollection<CafeFeatureEntity> CafeFeatures { get; set; }
         public ICollection<ProductEntity> Products { get; set; }
+        public ICollection<CafeLikeEntity> Likes { get; set; }
     }
     public class CafeConfiguration : BaseConfiguration<CafeEntity>
     {

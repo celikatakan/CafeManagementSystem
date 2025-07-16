@@ -70,9 +70,15 @@
 
                             <div class="form-group">
                                 <label asp-for="CafeId">
-                                    <i class="fas fa-store"></i> Kafe ID
+                                    <i class="fas fa-store"></i> Kafe
                                 </label>
-                                <input asp-for="CafeId" type="number" placeholder="Kafe ID giriniz" />
+                                <select asp-for="CafeId">
+                                    <option value="">Kafe seçiniz</option>
+                                    @foreach (var cafe in (List<CafeManagementSystem.Business.Operations.Cafe.Dtos.CafeDto>)ViewBag.Cafes)
+                                    {
+                                        <option value="@cafe.Id">@cafe.Name</option>
+                                    }
+                                </select>
                                 <span asp-validation-for="CafeId" class="text-danger"></span>
                             </div>
 

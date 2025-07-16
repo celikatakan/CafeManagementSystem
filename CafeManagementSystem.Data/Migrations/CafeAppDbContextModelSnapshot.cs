@@ -80,6 +80,39 @@ namespace CafeManagementSystem.Data.Migrations
                     b.ToTable("CafeFeatures");
                 });
 
+            modelBuilder.Entity("CafeManagementSystem.Data.Entities.CafeLikeEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CafeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("CafeId", "UserId")
+                        .IsUnique();
+
+                    b.ToTable("CafeLikes");
+                });
+
             modelBuilder.Entity("CafeManagementSystem.Data.Entities.FeatureEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -206,8 +239,8 @@ namespace CafeManagementSystem.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Comment")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -231,41 +264,6 @@ namespace CafeManagementSystem.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Reviews");
-                });
-
-            modelBuilder.Entity("CafeManagementSystem.Data.Entities.ReviewReactionEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsHelpful")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ReviewId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReviewId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ReviewReactionEntity");
                 });
 
             modelBuilder.Entity("CafeManagementSystem.Data.Entities.SettingEntity", b =>
@@ -367,6 +365,25 @@ namespace CafeManagementSystem.Data.Migrations
                     b.Navigation("Feature");
                 });
 
+            modelBuilder.Entity("CafeManagementSystem.Data.Entities.CafeLikeEntity", b =>
+                {
+                    b.HasOne("CafeManagementSystem.Data.Entities.CafeEntity", "Cafe")
+                        .WithMany("Likes")
+                        .HasForeignKey("CafeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CafeManagementSystem.Data.Entities.UserEntity", "User")
+                        .WithMany("LikedCafes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cafe");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("CafeManagementSystem.Data.Entities.OrderEntity", b =>
                 {
                     b.HasOne("CafeManagementSystem.Data.Entities.ProductEntity", "Product")
@@ -416,28 +433,11 @@ namespace CafeManagementSystem.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("CafeManagementSystem.Data.Entities.ReviewReactionEntity", b =>
-                {
-                    b.HasOne("CafeManagementSystem.Data.Entities.ReviewEntity", "Review")
-                        .WithMany("Reactions")
-                        .HasForeignKey("ReviewId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CafeManagementSystem.Data.Entities.UserEntity", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Review");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("CafeManagementSystem.Data.Entities.CafeEntity", b =>
                 {
                     b.Navigation("CafeFeatures");
+
+                    b.Navigation("Likes");
 
                     b.Navigation("Products");
                 });
@@ -452,13 +452,10 @@ namespace CafeManagementSystem.Data.Migrations
                     b.Navigation("Orders");
                 });
 
-            modelBuilder.Entity("CafeManagementSystem.Data.Entities.ReviewEntity", b =>
-                {
-                    b.Navigation("Reactions");
-                });
-
             modelBuilder.Entity("CafeManagementSystem.Data.Entities.UserEntity", b =>
                 {
+                    b.Navigation("LikedCafes");
+
                     b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618

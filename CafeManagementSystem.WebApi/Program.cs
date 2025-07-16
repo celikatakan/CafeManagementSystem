@@ -106,6 +106,7 @@ builder.Services.AddScoped<ISettingService, SettingManager>();
 builder.Services.AddScoped<IProductService, ProductManager>();
 builder.Services.AddScoped<IOrderService, OrderManager>();
 builder.Services.AddScoped<IReviewService, ReviewManager>();
+builder.Services.AddScoped<ICafeLikeService, CafeLikeManager>();
 
 
 builder.Services.AddEndpointsApiExplorer();

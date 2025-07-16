@@ -28,26 +28,27 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
-// Program.cs'de
 builder.Services.AddHttpClient();
-builder.Services.AddScoped<CafeManagementSystem.Web.Filters.MaintenanceFilter>();
-//builder.Services.AddHttpClient<ApiService>(client =>
-//{
-//    var baseUrl = builder.Configuration["ApiSettings:BaseUrl"];
-//    client.BaseAddress = new Uri(baseUrl);
-//    client.Timeout = TimeSpan.FromSeconds(
-//        builder.Configuration.GetValue<int>("ApiSettings:Timeout"));
-//});
+
+
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddHttpClient<ApiService>(client =>
 {
     var baseUrl = builder.Configuration["ApiSettings:BaseUrl"];
     client.BaseAddress = new Uri(baseUrl ?? "https://localhost:7265/");
     client.Timeout = TimeSpan.FromSeconds(
-        builder.Configuration.GetValue<int>("ApiSettings:Timeout", 30)); 
+        builder.Configuration.GetValue<int>("ApiSettings:Timeout", 30));
 });
 
-builder.Services.AddScoped<ApiService>();
+builder.Services.AddScoped<ApiService>(provider =>
+{
+    var clientFactory = provider.GetRequiredService<IHttpClientFactory>();
+    var client = clientFactory.CreateClient(nameof(ApiService));
+    var config = provider.GetRequiredService<IConfiguration>();
+    var accessor = provider.GetRequiredService<IHttpContextAccessor>();
+    return new ApiService(client, config, accessor);
+});
 
 
 var app = builder.Build();

@@ -85,6 +85,12 @@
         z-index: 1;
     }
 
+    .cafe-like-section {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.2rem;
+    }
+
     .cafe-location {
         font-size: 1.2rem;
         color: var(--text-secondary);
@@ -787,6 +793,12 @@
     <div class="cafe-header fade-in-up">
         <div class="cafe-info">
             <h1 class="cafe-title">@Model.Name</h1>
+            <div class="cafe-like-section" style="margin-bottom:1.2rem;">
+                <button id="cafe-like-btn" style="background:none;border:none;cursor:pointer;outline:none;">
+                    <i id="cafe-like-icon" class="far fa-heart" style="font-size:1.6rem;color:#E74C3C;vertical-align:middle;"></i>
+                </button>
+                <span id="cafe-like-count" style="font-size:1.1rem;color:#E74C3C;vertical-align:middle;margin-left:0.3rem;">0</span>
+            </div>
             <div class="cafe-rating">
                 <div class="rating-stars">
                     @for (int i = 1; i <= 5; i++)
@@ -1024,6 +1036,112 @@
         
         // Initialize review form
         initializeReviewForm();
+
+        const apiBase = "https://localhost:7265";
+        const cafeId = @Model.Id;
+        const likeIcon = document.getElementById('cafe-like-icon');
+        const likeCount = document.getElementById('cafe-like-count');
+        const likeBtn = document.getElementById('cafe-like-btn');
+        let liked = false;
+
+        // Beğeni sayısını çek
+        const token = localStorage.getItem('jwtToken');
+        if (token) {
+            fetch(`${apiBase}/api/Cafes/${cafeId}/likes/count`, {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            })
+                .then(r => r.ok ? r.json() : { count: 0 })
+                .then(data => {
+                    likeCount.textContent = data.count ?? 0;
+                });
+
+            // Kullanıcı beğenmiş mi?
+            fetch(`${apiBase}/api/Cafes/${cafeId}/likes/hasliked`, {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            })
+                .then(r => r.ok ? r.json() : { liked: false })
+                .then(data => {
+                    liked = data.liked ?? false;
+                    updateLikeIcon();
+                });
+        } else {
+            likeCount.textContent = 0;
+            // İstersen burada kullanıcıya login olması gerektiğini belirten bir uyarı gösterebilirsin
+        }
+
+        function updateLikeIcon() {
+            if (liked) {
+                likeIcon.classList.remove('far');
+                likeIcon.classList.add('fas');
+            } else {
+                likeIcon.classList.remove('fas');
+                likeIcon.classList.add('far');
+            }
+        }
+
+        likeBtn.addEventListener('click', function () {
+            const token = localStorage.getItem('jwtToken');
+            if (!token) {
+                alert('Beğenmek için giriş yapmalısınız!');
+                return;
+            }
+            fetch(`${apiBase}/api/Cafes/${cafeId}/likes/hasliked`, {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            })
+                .then(r => r.ok ? r.json() : { liked: false })
+                .then(data => {
+                    liked = data.liked ?? false;
+                    if (!liked) {
+                        // Beğen
+                        fetch(`${apiBase}/api/Cafes/${cafeId}/like`, {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': 'Bearer ' + token
+                            }
+                        })
+                            .then(r => {
+                                if (r.ok) {
+                                    liked = true;
+                                    updateLikeIcon();
+                                    fetch(`${apiBase}/api/Cafes/${cafeId}/likes/count`, {
+                                        headers: {
+                                            'Authorization': 'Bearer ' + token
+                                        }
+                                    }).then(r => r.ok ? r.json() : { count: 0 }).then(data => { likeCount.textContent = data.count ?? 0; });
+                                } else if (r.status === 401) {
+                                    alert('Beğenmek için giriş yapmalısınız!');
+                                }
+                            });
+                    } else {
+                        // Beğeniyi kaldır
+                        fetch(`${apiBase}/api/Cafes/${cafeId}/like`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Authorization': 'Bearer ' + token
+                            }
+                        })
+                            .then(r => {
+                                if (r.ok) {
+                                    liked = false;
+                                    updateLikeIcon();
+                                    fetch(`${apiBase}/api/Cafes/${cafeId}/likes/count`, {
+                                        headers: {
+                                            'Authorization': 'Bearer ' + token
+                                        }
+                                    }).then(r => r.ok ? r.json() : { count: 0 }).then(data => { likeCount.textContent = data.count ?? 0; });
+                                } else if (r.status === 401) {
+                                    alert('Beğenmek için giriş yapmalısınız!');
+                                }
+                            });
+                    }
+                });
+        });
     });
 
     function showNotification(message, type = 'info') {

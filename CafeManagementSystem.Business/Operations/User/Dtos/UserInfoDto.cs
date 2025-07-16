@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using CafeManagementSystem.Data.Enums;
 using CafeManagementSystem.Business.Operations.Review.Dtos;
+using CafeManagementSystem.Business.Operations.Order.Dtos;
 
 namespace CafeManagementSystem.Business.Operations.User.Dtos
 {
@@ -15,6 +16,7 @@ namespace CafeManagementSystem.Business.Operations.User.Dtos
         public string Username => $"{FirstName} {LastName}";
         public DateTime CreatedAt { get; set; }
         public List<ReviewDto> Reviews { get; set; } = new List<ReviewDto>();
+        public List<OrderDto> Orders { get; set; } = new List<OrderDto>();
     }
 }
 

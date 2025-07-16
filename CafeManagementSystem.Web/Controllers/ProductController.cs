@@ -4,6 +4,7 @@ using CafeManagementSystem.Business.Operations.Product.Dtos;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using static CafeManagementSystem.Web.Services.ApiService;
+using CafeManagementSystem.Business.Operations.Cafe.Dtos;
 
 namespace CafeManagementSystem.Web.Controllers
 {
@@ -39,9 +40,11 @@ namespace CafeManagementSystem.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View(new AddProductDto());
+            var cafes = await _api.GetAsync<List<CafeDto>>("api/Cafes");
+            ViewBag.Cafes = cafes;
+            return View();
         }
 
         [HttpPost]
@@ -73,25 +76,12 @@ namespace CafeManagementSystem.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            try
-            {
-                var product = await _api.GetAsync<UpdateProductDto>($"api/Products/{id}");
-                if (product == null)
-                {
-                    return NotFound();
-                }
-                return View(product);
-            }
-            catch (MaintenanceException)
-            {
-                return RedirectToAction("Index", "Maintenance");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Ürün düzenleme sayfası açılırken hata oluştu");
-                TempData["Error"] = "Ürün bilgileri yüklenirken bir hata oluştu.";
-                return RedirectToAction(nameof(Index));
-            }
+            var cafes = await _api.GetAsync<List<CafeDto>>("api/Cafes");
+            ViewBag.Cafes = cafes;
+            var product = await _api.GetAsync<UpdateProductDto>($"api/Products/{id}");
+            if (product == null)
+                return NotFound();
+            return View(product);
         }
 
         [HttpPost]
